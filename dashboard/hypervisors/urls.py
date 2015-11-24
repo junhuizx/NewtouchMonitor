@@ -1,9 +1,19 @@
 from django.conf.urls import url
 
-from views import IndexView,MonitorView,MonitorDetailView
+from views import *
 
 urlpatterns = [
-    url(r'^overview/$', IndexView.as_view() ,name='overview'),
-    url(r'^monitor/$', MonitorView.as_view() ,name='monitor'),
+    url(r'^overview/$', IndexView.as_view() ,name='hypervisors_overview'),
+
+    url(r'^monitor/$', MonitorView.as_view() ,name='hypervisors_monitor'),
     url(r'^monitor/<?P(pk)\d+>/$', MonitorDetailView.as_view() ,name='hypervisor_detail'),
+
+    url(r'^manager/$', ManagerView.as_view() ,name='hypervisors_manager'),
+    url(r'^manager/add/$', IndexView.as_view() ,name='hypervisors_manager_add'),
+    url(r'^manager/<?P(pk)\d+>/delete/$', IndexView.as_view() ,name='hypervisors_manager_delete'),
+    url(r'^manager/<?P(pk)\d+>/edit/$', IndexView.as_view() ,name='hypervisors_manager_edit'),
+
+    url(r'^rules/$', ManagerHypervisorsAddView.as_view() ,name='hypervisors_collector'),
+
+    url(r'^rules/$', IndexView.as_view() ,name='hypervisors_rules'),
 ]

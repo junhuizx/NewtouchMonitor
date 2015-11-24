@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% block title %}
+    <title>Hypervisors-Manager</title>
+{% endblock %}
+{% block page-heading %}
+    <h3>
+        Hypervisors
+    </h3>
+    <ul class="breadcrumb">
+        <li>
+            <a href="#">Manager</a>
+        </li>
+{#        <li class="active"> My Dashboard </li>#}
+    </ul>
+{% endblock %}
+{% block page-body %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel-body">
+                <button class="btn btn-success pull-right" type="button"><i class="fa fa-plus"></i>  Add</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <section class="panel">
+                <header class="panel-heading custom-tab">
+                    <ul class="nav nav-tabs">
+                        {% if tag %}
+                            {% for idc in idcs %}
+                            <li class="{% if idc.name == tag %}active{% endif %}">
+                                <a href="?tag={{ idc.name }}" >{{ idc.name }}</a>
+                            </li>
+                            {% endfor %}
+                        {% else %}
+                            {% for idc in idcs %}
+                            <li class="{% if idc.name == 'ShangHai' %}active{% endif %}">
+                                <a href="?tag={{ idc.name }}" >{{ idc.name }}</a>
+                            </li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                </header>
+                <div class="panel-body">
+                    <div class="adv-table">
+                        <div id="dynamic-table_wrapper" class="dataTables_wrapper form-inline" role="grid">
+                            <table class="display table table-bordered table-striped dataTable" id="dynamic-table" aria-describedby="dynamic-table_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="sorting" role="columnheader" tabindex="1" aria-controls="dynamic-table" rowspan="1" colspan="1">ID</th>
+                                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1">Hostname</th>
+                                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1">Update Time</th>
+                                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1">SNMP</th>
+                                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1">SSH</th>
+                                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody role="alert" aria-live="polite" aria-relevant="all">
+                                    {% for hypervisor in hypervisors %}
+                                        <tr class="gradeX odd">
+                                            <td class="sorting_1">{{ hypervisor.id }}</td>
+                                            <td class=" ">{{ hypervisor.hostname }}</td>
+                                            <td class=" ">{{ hypervisor.create_time }}</td>
+                                            <td class=" ">{{ hypervisor.snmp_commit }}</td>
+                                            <td class=" ">{{ hypervisor.ssh_username }}</td>
+                                            <td class=" ">
+                                                <div class="btn-group">
+                                                    <a role="button" href="#" class="btn btn-info">Edit</a>
+                                                    <button data-toggle="dropdown" class="btn btn-info dropdown-toggle" type="button">
+                                                        <span class="caret"></span>
+                                                        <span class="sr-only">Toggle Dropdown</span>
+                                                    </button>
+                                                    <ul aria-labelledby="btnGroupDrop1" role="menu" class="dropdown-menu">
+                                                        <li><a href="#">Delete</a></li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+{#                                    <tr class="gradeX odd">#}
+{#                                        <td class=" ">Trident</td>#}
+{#                                        <td class=" ">Interner Explorer 4.0</td>#}
+{#                                        <td class=" ">Win 95+</td>#}
+{#                                        <td class="center hidden-phone ">4</td>#}
+{#                                        <td class="center hidden-phone  sorting_1">X</td>#}
+{#                                    </tr>#}
+{#                                    <tr class="gradeX even">#}
+{#                                        <td class=" ">Tasman</td>#}
+{#                                        <td class=" ">Internet Explorer 4.5</td>#}
+{#                                        <td class=" ">Mac OS 8-9</td>#}
+{#                                        <td class="center hidden-phone ">-</td>#}
+{#                                        <td class="center hidden-phone  sorting_1">X</td>#}
+{#                                    </tr>#}
+{#                                    <tr class="gradeU even">#}
+{#                                        <td class=" ">Other browsers</td>#}
+{#                                        <td class=" ">All others</td>#}
+{#                                        <td class=" ">-</td>#}
+{#                                        <td class="center hidden-phone ">-</td>#}
+{#                                        <td class="center hidden-phone  sorting_1">U</td>#}
+{#                                    </tr>#}
+{#                                    <tr class="gradeA odd">#}
+{#                                        <td class=" ">Presto</td>#}
+{#                                        <td class=" ">Nintendo DS browser</td>#}
+{#                                        <td class=" ">Nintendo DS</td>#}
+{#                                        <td class="center hidden-phone ">8.5</td>#}
+{#                                        <td class="center hidden-phone  sorting_1">C/A<sup>1</sup></td>#}
+{#                                    </tr>#}
+{#                                    <tr class="gradeC even">#}
+{#                                        <td class=" ">Trident</td>#}
+{#                                        <td class=" ">Internet#}
+{#                                            Explorer 5.0</td>#}
+{#                                        <td class=" ">Win 95+</td>#}
+{#                                        <td class="center hidden-phone ">5</td>#}
+{#                                        <td class="center hidden-phone  sorting_1">C</td>#}
+{#                                    </tr>#}
+{#                                    <tr class="gradeC odd">#}
+{#                                        <td class=" ">KHTML</td>#}
+{#                                        <td class=" ">Konqureror 3.1</td>#}
+{#                                        <td class=" ">KDE 3.1</td>#}
+{#                                        <td class="center hidden-phone ">3.1</td>#}
+{#                                        <td class="center hidden-phone  sorting_1">C</td>#}
+{#                                    </tr>#}
+{#                                    <tr class="gradeC even">#}
+{#                                        <td class=" ">Tasman</td>#}
+{#                                        <td class=" ">Internet Explorer 5.1</td>#}
+{#                                        <td class=" ">Mac OS 7.6-9</td>#}
+{#                                        <td class="center hidden-phone ">1</td>#}
+{#                                        <td class="center hidden-phone  sorting_1">C</td>#}
+{#                                    </tr>#}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+{% endblock %}

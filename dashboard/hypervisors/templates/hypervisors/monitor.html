@@ -1,4 +1,74 @@
 {% extends 'base.html' %}
 {% block title %}
-    <title>Hypervisors</title>
+    <title>Hypervisors-Monitor</title>
+{% endblock %}
+{% block page-heading %}
+    <h3>
+        Hypervisors
+    </h3>
+    <ul class="breadcrumb">
+        <li>
+            <a href="#">Monitor</a>
+        </li>
+{#        <li class="active"> My Dashboard </li>#}
+    </ul>
+{% endblock %}
+{% block page-body %}
+    <div class="row">
+        <div class="col-md-12">
+            <section class="panel">
+                <header class="panel-heading custom-tab ">
+                    <ul class="nav nav-tabs">
+                        {% if tag %}
+                            {% for idc in idcs %}
+                            <li class="{% if idc.name == tag %}active{% endif %}">
+                                <a href="?tag={{ idc.name }}" >{{ idc.name }}</a>
+                            </li>
+                            {% endfor %}
+                        {% else %}
+                            {% for idc in idcs %}
+                            <li class="{% if idc.name == 'ShangHai' %}active{% endif %}">
+                                <a href="?tag={{ idc.name }}" >{{ idc.name }}</a>
+                            </li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                </header>
+                <div class="panel-body">
+                    <div class="adv-table">
+                        <div id="dynamic-table_wrapper" class="dataTables_wrapper form-inline" role="grid">
+                            <table class="display table table-bordered table-striped dataTable" id="dynamic-table" aria-describedby="dynamic-table_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" >Server</th>
+                                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" >Host IP</th>
+                                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" >CPU Usage</th>
+                                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" >CPU Load</th>
+                                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" >Memory Usgae</th>
+                                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" >Net In/Out</th>
+                                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" >Disk</th>
+                                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" >Process Num</th>
+                                    </tr>
+                                </thead>
+                                <tbody role="alert" aria-live="polite" aria-relevant="all">
+                                {% for host in hosts %}
+                                    <tr class="gradeX odd">
+                                        <td>{{ server.id }}</td>
+                                        <td>{{ host.server }}</td>
+                                        <td>{{ host.cpuUsage }}</td>
+                                        <td>{{ host.cpuLoad }}</td>
+                                        <td>{{ host.memUsage }}</td>
+                                        <td>{{ host.inTotal }} / {{ host.outTotal }}</td>
+                                        <td>{{ host.diskUsed }} / {{ host.diskTotal }}</td>
+                                        <td>{{ host.procNumb }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
 {% endblock %}

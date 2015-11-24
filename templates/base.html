@@ -2,40 +2,43 @@
 {% load staticfiles %}
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <meta name="keywords" content="admin, dashboard, bootstrap, template, flat, modern, theme, responsive, fluid, retina, backend, html5, css, css3">
-  <meta name="description" content="">
-  <meta name="author" content="ThemeBucket">
-  <link rel="shortcut icon" href="#" type="image/png">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="keywords" content="admin, dashboard, bootstrap, template, flat, modern, theme, responsive, fluid, retina, backend, html5, css, css3">
+    <meta name="description" content="">
+    <meta name="author" content="ThemeBucket">
+    <link rel="shortcut icon" href="#" type="image/png">
 
     {% block title %}
     {% endblock %}
 
-  <!--icheck-->
-  <link href="{% static "js/iCheck/skins/minimal/minimal.css" %}" rel="stylesheet">
-  <link href="{% static "js/iCheck/skins/square/square.css" %}" rel="stylesheet">
-  <link href="{% static "js/iCheck/skins/square/red.css"%}" rel="stylesheet">
-  <link href="{% static "js/iCheck/skins/square/blue.css" %}" rel="stylesheet">
+    <link href="{% static "js/advanced-datatable/css/demo_page.css"%}" rel="stylesheet" />
+    <link href="{% static "js/advanced-datatable/css/demo_table.css" %}" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static "js/data-tables/DT_bootstrap.css" %}" />
+    <!--icheck-->
+    <link href="{% static "js/iCheck/skins/minimal/minimal.css" %}" rel="stylesheet">
+    <link href="{% static "js/iCheck/skins/square/square.css" %}" rel="stylesheet">
+    <link href="{% static "js/iCheck/skins/square/red.css"%}" rel="stylesheet">
+    <link href="{% static "js/iCheck/skins/square/blue.css" %}" rel="stylesheet">
 
-  <!--dashboard calendar-->
-  <link href="{% static "css/clndr.css" %}" rel="stylesheet">
+    <!--dashboard calendar-->
+    <link href="{% static "css/clndr.css" %}" rel="stylesheet">
 
-  <!--Morris Chart CSS -->
-  <link rel="stylesheet" href="{% static "js/morris-chart/morris.css" %}">
+    <!--Morris Chart CSS -->
+    <link rel="stylesheet" href="{% static "js/morris-chart/morris.css" %}">
 
-  <!--common-->
-  <link href="{% static "css/style.css" %}" rel="stylesheet">
-  <link href="{% static "css/style-responsive.css" %}" rel="stylesheet">
-
-
+    <!--common-->
+    <link href="{% static "css/style.css" %}" rel="stylesheet">
+    <link href="{% static "css/style-responsive.css" %}" rel="stylesheet">
 
 
-  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!--[if lt IE 9]>
-  <script src="{% static "js/html5shiv.js" %}"></script>
-  <script src="{% static "js/respond.min.js" %}"></script>
-  <![endif]-->
+
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="{% static "js/html5shiv.js" %}"></script>
+    <script src="{% static "js/respond.min.js" %}"></script>
+    <![endif]-->
 </head>
 
 <body class="sticky-header">
@@ -75,39 +78,7 @@
             </div>
 
             <!--sidebar nav start-->
-            <ul class="nav nav-pills nav-stacked custom-nav">
-                <li class="active"><a href="index.html"><i class="fa fa-home"></i> <span>Overview</span></a></li>
-                <li class="menu-list"><a href=""><i class="fa fa-laptop"></i> <span>Hypervisors</span></a>
-                    <ul class="sub-menu-list">
-                        <li><a href={% url "newtouch:hypervisors:overview" %}> Overview</a></li>
-                        <li><a href={% url "newtouch:hypervisors:monitor" %}> Monitor</a></li>
-                        <li><a href={% url "newtouch:hypervisors:overview" %}> Manager</a></li>
-                        <li><a href={% url "newtouch:hypervisors:overview" %}> Rules</a></li>
-                    </ul>
-                </li>
-
-                <li class="menu-list"><a href=""><i class="fa fa-cloud"></i> <span>Instances</span></a>
-                    <ul class="sub-menu-list">
-                        <li><a href="#"> Overview</a></li>
-                        <li><a href="#"> Monitor</a></li>
-                        <li><a href="#"> Manager</a></li>
-                        <li><a href="#"> Rules</a></li>
-                    </ul>
-                </li>
-                <li class="menu-list"><a href=""><i class="fa fa-sitemap"></i> <span>Network</span></a>
-                    <ul class="sub-menu-list">
-                        <li><a href="#"> Overview</a></li>
-                        <li><a href="#"> Monitor</a></li>
-                        <li><a href="#"> Manager</a></li>
-                        <li><a href="#"> Rules</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="">
-                        <i class="fa fa-ban"></i><span>Rules</span>
-                    </a>
-                </li>
-            </ul>
+            {% include 'sidebar.html' %}
             <!--sidebar nav end-->
 
         </div>
@@ -168,21 +139,24 @@
 
         <!-- page heading start-->
         <div class="page-heading">
-            <h3>
-                Dashboard
-            </h3>
-            <ul class="breadcrumb">
-                <li>
-                    <a href="#">Dashboard</a>
-                </li>
-                <li class="active"> My Dashboard </li>
-            </ul>
+            {% block page-heading %}
+                <h3>
+                    Dashboard
+                </h3>
+                <ul class="breadcrumb">
+                    <li>
+                        <a href="#">Dashboard</a>
+                    </li>
+                    <li class="active"> My Dashboard </li>
+                </ul>
+            {% endblock %}
         </div>
         <!-- page heading end-->
 
         <!--body wrapper start-->
         <div class="wrapper">
-
+            {% block page-body %}
+            {% endblock %}
         </div>
         <!--body wrapper end-->
 
@@ -232,6 +206,11 @@
 <!--Dashboard Charts-->
 <script src="{% static "js/dashboard-chart-init.js" %}"></script>
 
+<!--dynamic table-->
+<script type="text/javascript" language="javascript" src="{% static "js/advanced-datatable/js/jquery.dataTables.js" %}"></script>
+<script type="text/javascript" src="{% static "js/data-tables/DT_bootstrap.js" %}"></script>
+<!--dynamic table initialization -->
+<script src="{% static "js/dynamic_table_init.js" %}"></script>
 
 </body>
 </html>
