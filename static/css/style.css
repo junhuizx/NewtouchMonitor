@@ -1085,7 +1085,7 @@ footer {
     padding: 15px;
     color: #7A7676;
     font-size: 12px;
-    position: static;
+    position: fixed;
     bottom: 0;
     width: 100%;
     border-top: 1px solid #eff0f4;

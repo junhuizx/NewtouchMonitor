@@ -46,11 +46,11 @@
 
         <!--logo and iconic logo start-->
         <div class="logo">
-            <a href="index.html"><img src="images/logo.png" alt=""></a>
+            <a href="index.html"><img src="{% static "images/logo.png" %}" alt=""></a>
         </div>
 
         <div class="logo-icon text-center">
-            <a href="index.html"><img src="images/logo_icon.png" alt=""></a>
+            <a href="index.html"><img src="{% static "images/logo_icon.png" %}" alt=""></a>
         </div>
         <!--logo and iconic logo end-->
 
@@ -59,7 +59,7 @@
             <!-- visible to small devices only -->
             <div class="visible-xs hidden-sm hidden-md hidden-lg">
                 <div class="media logged-user">
-                    <img alt="" src="images/photos/user-avatar.png" class="media-object">
+                    <img alt="" src="{% static "images/photos/user-avatar.png" %}" class="media-object">
                     <div class="media-body">
                         <h4><a href="#">John Doe</a></h4>
                         <span>"Hello There..."</span>
@@ -79,13 +79,14 @@
                 <li class="active"><a href="index.html"><i class="fa fa-home"></i> <span>Overview</span></a></li>
                 <li class="menu-list"><a href=""><i class="fa fa-laptop"></i> <span>Hypervisors</span></a>
                     <ul class="sub-menu-list">
-                        <li><a href="#"> Overview</a></li>
-                        <li><a href="#"> Monitor</a></li>
-                        <li><a href="#"> Manager</a></li>
-                        <li><a href="#"> Rules</a></li>
+                        <li><a href={% url "newtouch:hypervisors:overview" %}> Overview</a></li>
+                        <li><a href={% url "newtouch:hypervisors:monitor" %}> Monitor</a></li>
+                        <li><a href={% url "newtouch:hypervisors:overview" %}> Manager</a></li>
+                        <li><a href={% url "newtouch:hypervisors:overview" %}> Rules</a></li>
                     </ul>
                 </li>
-                <li class="menu-list"><a href=""><i class="fa fa-laptop"></i> <span>Instances</span></a>
+
+                <li class="menu-list"><a href=""><i class="fa fa-cloud"></i> <span>Instances</span></a>
                     <ul class="sub-menu-list">
                         <li><a href="#"> Overview</a></li>
                         <li><a href="#"> Monitor</a></li>
@@ -93,7 +94,7 @@
                         <li><a href="#"> Rules</a></li>
                     </ul>
                 </li>
-                <li class="menu-list"><a href=""><i class="fa fa-laptop"></i> <span>Network</span></a>
+                <li class="menu-list"><a href=""><i class="fa fa-sitemap"></i> <span>Network</span></a>
                     <ul class="sub-menu-list">
                         <li><a href="#"> Overview</a></li>
                         <li><a href="#"> Monitor</a></li>
@@ -103,10 +104,9 @@
                 </li>
                 <li>
                     <a href="">
-                        <i class="fa fa-laptop"></i><span>Rules</span>
+                        <i class="fa fa-ban"></i><span>Rules</span>
                     </a>
                 </li>
-
             </ul>
             <!--sidebar nav end-->
 
@@ -148,7 +148,7 @@
                     </li>
                     <li>
                         <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <img src="images/photos/user-avatar.png" alt="" />
+                            <img src="{% static "images/photos/user-avatar.png" %}" alt="" />
                             John Doe
                             <span class="caret"></span>
                         </a>
