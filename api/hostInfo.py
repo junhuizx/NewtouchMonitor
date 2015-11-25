@@ -12,7 +12,6 @@ class HostInfo(object):
             self.interface = info_dict['interface'] if info_dict['interface']\
                              else []
             self.inTotal, self.outTotal = 0, 0
-            print self.interface
             for intf in self.interface:
                 self.inTotal += int(intf[1])
                 self.outTotal += int(intf[2])

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}
-    <title>Hypervisors-Manager</title>
+    <title>Hypervisors-Collertor</title>
 {% endblock %}
 {% if form.error %}
 <script>
@@ -13,39 +13,22 @@
     </h3>
     <ul class="breadcrumb">
         <li>
-            <a href="#">Manager</a>
+            <a href={% url "newtouch:hypervisors:hypervisors_manager" %}>Manager</a>
         </li>
-{#        <li class="active"> My Dashboard </li>#}
+        <li class="active">
+           Collertor
+        </li>
     </ul>
 {% endblock %}
 {% block page-body %}
     <div class="row">
-        <div class="col-lg-12">
-            <div class="panel-body">
-{#                <input type="button" data-toggle="modal" data-target="#HypervisorsModal" value="Add" class="btn btn-success ">#}
-                <a role="button" href="{% url 'newtouch:hypervisors:hypervisors_manager_add' %}" class="pull-right btn btn-primary">Add</a>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
+        <div class="col-sm-12">
             <section class="panel">
-                <header class="panel-heading custom-tab">
-                    <ul class="nav nav-tabs">
-                        {% if tag %}
-                            {% for idc in idcs %}
-                            <li class="{% if idc.name == tag %}active{% endif %}">
-                                <a href="?tag={{ idc.name }}" >{{ idc.name }}</a>
-                            </li>
-                            {% endfor %}
-                        {% else %}
-                            {% for idc in idcs %}
-                            <li class="{% if idc.name == 'ShangHai' %}active{% endif %}">
-                                <a href="?tag={{ idc.name }}" >{{ idc.name }}</a>
-                            </li>
-                            {% endfor %}
-                        {% endif %}
-                    </ul>
+                <header class="panel-heading">
+                    Collertor
+                    <span class="tools pull-right">
+                        <a role="button" href="{% url 'newtouch:hypervisors:hypervisors_manager_add' %}" class="pull-right btn btn-primary">Add</a>
+                     </span>
                 </header>
                 <div class="panel-body">
                     <div class="adv-table">
@@ -90,5 +73,5 @@
                 </div>
             </section>
         </div>
-    </div>
+        </div>
 {% endblock %}

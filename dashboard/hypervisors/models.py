@@ -65,14 +65,14 @@ class Hypervisors(models.Model):
     create_time = models.DateTimeField(editable=False, auto_now_add=True)
     update_time = models.DateTimeField(editable=False,auto_now=True)
     location = models.ForeignKey(IDC, related_name='idc_hypervisors')
-    user = models.ForeignKey(User, related_name='user_hypervisors')
+    user = models.ForeignKey(User, related_name='user_hypervisors',blank=True)
     rules = models.ManyToManyField(HypervisorsRules, related_name= 'rules_hypervisors',blank=True)
     snmp_version = models.CharField(max_length=4,
                                     choices=(('1', '1'),('2', '2c'),),
                                     default='2c')
     snmp_commit = models.CharField(max_length=128, default='public')
-    ssh_username = models.CharField(max_length=128, default='root')
-    ssh_password = models.CharField(max_length=128, default='111111')
+    ssh_username = models.CharField(max_length=128, default='root',null=True,blank=True)
+    ssh_password = models.CharField(max_length=128, default='111111',null=True,blank=True)
 
     def __str__(self):
         return "%s-%s" %(self.location, self.hostname)
