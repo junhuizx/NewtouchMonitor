@@ -6,10 +6,10 @@
     </h3>
     <ul class="breadcrumb">
         <li>
-            <a href={% url "newtouch:hypervisors:hypervisors_manager" %}>Manager</a>
+            <a href={% url "newtouch:hypervisors:hypervisors_collector" %}>Collertor</a>
         </li>
         <li class="active">
-           Add Hypervisor
+           Add Collertor
         </li>
     </ul>
 {% endblock %}
@@ -19,32 +19,32 @@
     <div class="col-lg-6">
         <section class="panel">
             <header class="panel-heading">
-                Add
+                Add Collertor
             </header>
             <div class="panel-body">
-                <form role="form" action="{% url "newtouch:hypervisors:hypervisors_manager_add" %}" method="post">
+                <form role="form" action="{% url "newtouch:hypervisors:hypervisors_collector_add" %}" method="post">
                     {% csrf_token %}
                     {{ form.non_field_errors }}
                     <div class="form-group">
-                        <label for="exampleInputEmail1">{{ form.hostname.label }}</label>
-                        {{ form.hostname }}
-                        {% for error in form.hostname.errors %}
+                        <label for="exampleInputEmail1">{{ form.id.label }}</label>
+                        {{ form.id }}
+                        {% for error in form.id.errors %}
                             <div class="has-error">
                                 <p class="help-block">{{ error }}</p>
                             </div>
                         {% endfor %}
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputPassword1">{{ form.location.label }}</label>
-                        {{ form.location }}
-                        {% for error in form.location.errors %}
+                        <label for="exampleInputEmail1">{{ form.name.label }}</label>
+                        {{ form.name }}
+                        {% for error in form.name.errors %}
                             <div class="has-error">
                                 <p class="help-block">{{ error }}</p>
                             </div>
                         {% endfor %}
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputFile">{{ form.user.label }}</label>
+                        <label for="exampleInputPassword1">{{ form.user.label }}</label>
                         {{ form.user }}
                         {% for error in form.user.errors %}
                             <div class="has-error">
@@ -53,33 +53,32 @@
                         {% endfor %}
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputFile">{{ form.collector.label }}</label>
-                        {{ form.collector }}
-                        {% for error in form.collector.errors %}
+                        <label for="exampleInputFile">{{ form.key.label }}</label>
+                        {{ form.key }}
+                        {% for error in form.key.errors %}
                             <div class="has-error">
                                 <p class="help-block">{{ error }}</p>
                             </div>
                         {% endfor %}
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputFile">{{ form.snmp_version.label }}</label>
-                        {{ form.snmp_version }}
-                        {% for error in form.snmp_version.errors %}
+                        <label for="exampleInputFile">{{ form.hostname.label }}</label>
+                        {{ form.hostname }}
+                        {% for error in form.hostname.errors %}
                             <div class="has-error">
                                 <p class="help-block">{{ error }}</p>
                             </div>
                         {% endfor %}
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputFile">{{ form.snmp_commit.label }}</label>
-                        {{ form.snmp_commit }}
-                        {% for error in form.snmp_commit.errors %}
+                        <label for="exampleInputFile">{{ form.port.label }}</label>
+                        {{ form.port }}
+                        {% for error in form.port.errors %}
                             <div class="has-error">
                                 <p class="help-block">{{ error }}</p>
                             </div>
                         {% endfor %}
                     </div>
-
                     <button type="submit" class="btn btn-primary center-block">Submit</button>
                 </form>
             </div>

@@ -13,23 +13,23 @@ class IDC(models.Model):
         return self.name
 
 class HypervisorsRules(models.Model):
-    HYPERVISORS_RULES_TYPE_CHOICES = (('CPU使用率', 'CPU使用率'),
-                                 ('CPU负载','CPU负载'),
-                                 ('内存使用率','内存使用率'),
-                                 ('磁盘使用率','磁盘使用率'),
-                                 ('系统进程数','系统进程数'))
+    HYPERVISORS_RULES_TYPE_CHOICES = (('CPU Usgae', 'CPU Usgae'),
+                                 ('CPU Load','CPU Load'),
+                                 ('Memory Usgae','Memory Usgae'),
+                                 ('Disk Usgae','Disk Usgae'),
+                                 ('Process Num','Process Num'))
 
-    HYPERVISORS_RULES_THRESHOLD_USAGE_CHOICES = ((30, '>= 30%, < 50%'),
-                                                 (50, '>= 50%, < 80%'),
-                                                 (80, '>= 80%, < 100%'))
+    HYPERVISORS_RULES_THRESHOLD_USAGE_CHOICES = (('30', '30-50%'),
+                                                 ('50', '50-80%'),
+                                                 ('80', '80+%'))
 
-    HYPERVISORS_RULES_THRESHOLD_LOAD_CHOICES = (('1.0', '>= 1.0, < 1.5'),
-                                                ('1.5', '>= 1.5, < 2.0'),
-                                                ('2.0', '>= 2.0'))
+    HYPERVISORS_RULES_THRESHOLD_LOAD_CHOICES = (('1.0', '1.0-1.5'),
+                                                ('1.5', '1.5-2.0'),
+                                                ('2.0', '2.0+'))
 
-    HYPERVISORS_RULES_THRESHOLD_NUM_CHOICES = ((200, '>= 200, <250'),
-                                               (250, '>= 250, <300'),
-                                               (300, '>= 300'))
+    HYPERVISORS_RULES_THRESHOLD_NUM_CHOICES = (('200', '200-250'),
+                                               ('250', '250-300'),
+                                               ('300', '300'))
 
     name = models.CharField(max_length=128)
     type = models.CharField(max_length=32, choices=HYPERVISORS_RULES_TYPE_CHOICES)

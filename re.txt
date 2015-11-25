@@ -1,0 +1,12 @@
+Django==1.8.4
+Pillow==3.0.0
+django-grappelli==2.7.2
+django-pagedown==0.1.0
+django-pagination==1.0.7
+django-tastypie==0.12.2
+django-wmd-editor==0.9.0
+markdown2==2.3.0
+markup==0.2
+python-dateutil==2.4.2
+python-mimeparse==0.1.4
+six==1.10.0

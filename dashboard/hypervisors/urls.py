@@ -14,6 +14,10 @@ urlpatterns = [
     url(r'^manager/(?P<pk>\d+)/delete/$', IndexView.as_view() ,name='hypervisors_manager_delete'),
 
     url(r'^collector/$', CollectorView.as_view() ,name='hypervisors_collector'),
+    url(r'^collector/(?P<pk>\d+)/$', CollectorView.as_view() ,name='hypervisors_collector_detail'),
+    url(r'^collector/add/$', CollertorAddView.as_view() ,name='hypervisors_collector_add'),
+    url(r'^collector/(?P<pk>\d+)/edit/$', CollertorEditView.as_view() ,name='hypervisors_collector_edit'),
+    url(r'^collector/(?P<pk>\d+)/delete/$', CollertorDeteleView.as_view() ,name='hypervisors_collector_delete'),
 
     url(r'^rules/$', IndexView.as_view() ,name='hypervisors_rules'),
 ]

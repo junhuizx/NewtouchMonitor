@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import json
 from socket import socket, AF_INET, SOCK_STREAM
 from django.http import HttpResponseRedirect
@@ -8,7 +10,7 @@ from django.views import generic
 from django.core.urlresolvers import reverse_lazy, reverse
 
 from models import *
-from forms import HypervisorsAddForm, HypervisorsEditForm
+from forms import HypervisorsAddForm, HypervisorsEditForm, CollertorAddForm
 from api.hostInfo import HostInfo
 
 
@@ -90,7 +92,6 @@ class HypervisorAddView(generic.FormView):
 
 class HypervisorEditView(generic.FormView):
     form_class = HypervisorsEditForm
-    error_css_class = 'error'
     required_css_class = 'required'
     success_url = reverse_lazy('newtouch:hypervisors:hypervisors_manager')
     template_name = 'hypervisors/manager_edit.html'
@@ -126,6 +127,49 @@ class HypervisorEditView(generic.FormView):
 
         return super(HypervisorEditView,self).post(request, *args, **kwargs)
 
+
 class CollectorView(generic.ListView):
+    model = Collector
     template_name = 'hypervisors/collertor.html'
-    queryset = []
+    context_object_name = 'collertors'
+
+class CollectorDetailView(generic.DetailView):
+    model = Collector
+    template_name = 'hypervisors/collertor.html'
+    context_object_name = 'collertors'
+
+class CollertorAddView(generic.FormView):
+    form_class = CollertorAddForm
+    success_url = reverse_lazy('newtouch:hypervisors:hypervisors_collector')
+    template_name = 'hypervisors/collertor_add.html'
+
+    def get(self, request, *args, **kwargs):
+        Collectors = Collector.objects.all().order_by('-id')
+        if Collectors:
+            id = Collectors[0].id + 1
+        else:
+            id = 1
+        self.initial = {
+            'id': id,
+            'key' : uuid.uuid4()
+        }
+
+        return super(CollertorAddView,self).get(request,*args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        form = CollertorAddForm(request.POST)
+        if form.is_valid():
+            print form.cleaned_data
+            try:
+                form.save(form)
+            except Exception,e:
+                return self.form_invalid(form=form)
+        else:
+            return self.form_invalid(form=form)
+        return super(CollertorAddView,self).post(request, *args, **kwargs)
+
+class CollertorEditView(generic.FormView):
+    pass
+
+class CollertorDeteleView(generic.FormView):
+    pass

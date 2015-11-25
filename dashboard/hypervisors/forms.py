@@ -53,9 +53,9 @@ class HypervisorsEditForm(forms.Form):
                                   widget=forms.TextInput(attrs={'class': 'form-control placeholder-no-fix',
                                                                 'autocomplete':"off",
                                                                  "placeholder":"SNMP COMMIT" }))
-    rules = forms.ModelChoiceField(required=False,
+    rules = forms.ModelMultipleChoiceField(required=False,
                                    queryset=HypervisorsRules.objects.all(),
-                                   widget=forms.SelectMultiple(attrs={'class': 'form-control m-bot15'}))
+                                   widget=forms.SelectMultiple(attrs={'class': 'form-control placeholder-no-fix'}))
     ssh_username = forms.CharField(max_length=128,
                                    required=False,
                                   initial='root',
@@ -81,3 +81,29 @@ class HypervisorsEditForm(forms.Form):
         hy = Hypervisors.objects.get(pk=data['id'])
         hy.__dict__.update(data)
         hy.save()
+
+class CollertorAddForm(forms.Form):
+    id = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control m-bot15','readonly':'readonly'}))
+    name = forms.CharField(max_length=128,
+                          widget=forms.TextInput(attrs={'class': 'form-control m-bot15'}))
+    user =forms.ModelChoiceField(queryset=User.objects.all(),
+                                      widget=forms.Select(attrs={'class': 'form-control m-bot15'}))
+    key = forms.CharField(max_length=128,
+                          widget=forms.TextInput(attrs={'class': 'form-control m-bot15','readonly':'readonly'}))
+    hostname = forms.GenericIPAddressField(widget=forms.TextInput(attrs={'class': 'form-control m-bot15'}))
+    port = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control m-bot15'}))
+
+    def save(self, form):
+        form = form.cleaned_data
+        try:
+            Collector.objects.get(id=form['id'])
+            raise forms.ValidationError("Already had")
+        except ObjectDoesNotExist:
+            collector = Collector.objects.create(id = form['id'],
+                                                 name = form['name'],
+                                                 key = form['key'],
+                                                 user = form['user'],
+                                                 hostname = form['hostname'],
+                                                 port = form['port'])
+            collector.save()
+
