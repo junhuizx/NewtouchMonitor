@@ -46,7 +46,6 @@ class HypervisorsEditForm(forms.Form):
     user =forms.ModelChoiceField(queryset=User.objects.all(),
                                       widget=forms.Select(attrs={'class': 'form-control m-bot15','readonly':'readonly'}))
     snmp_version =forms.ChoiceField(choices=(('1', '1'),('2', '2c'),),
-                                    initial=('2', '2c'),
                                     widget=forms.Select(attrs={'class': 'form-control m-bot15'}))
     snmp_commit = forms.CharField(max_length=128,
                                   initial='public',
@@ -55,7 +54,8 @@ class HypervisorsEditForm(forms.Form):
                                                                  "placeholder":"SNMP COMMIT" }))
     rules = forms.ModelMultipleChoiceField(required=False,
                                    queryset=HypervisorsRules.objects.all(),
-                                   widget=forms.SelectMultiple(attrs={'class': 'form-control placeholder-no-fix'}))
+                                   widget=forms.SelectMultiple(attrs={'class': 'multi-select',
+                                                                      'id':"my_multi_select3",}))
     ssh_username = forms.CharField(max_length=128,
                                    required=False,
                                   initial='root',

@@ -10,12 +10,11 @@
         </ul>
     </li>
 
-    <li class="menu-list"><a href=""><i class="fa fa-cloud"></i> <span>Instances</span></a>
+    <li class="menu-list {% if '/openstack/' in request.path %}active{% endif %}"><a href=""><i class="fa fa-cloud"></i> <span>OpenStack</span></a>
         <ul class="sub-menu-list">
-            <li><a href="#"> Overview</a></li>
-            <li><a href="#"> Monitor</a></li>
-            <li><a href="#"> Manager</a></li>
-            <li><a href="#"> Rules</a></li>
+            <li class="{% if '/openstack/index/' in request.path %}active{% endif %}"><a href="{% url 'newtouch:openstack:openstack_index' %}"> Openstack Agent</a></li>
+            <li class="{% if '/openstack/hypervisors/' in request.path %}active{% endif %}"><a href="{% url 'newtouch:openstack:openstack_hypervisors' 1 %}"> Hypervisors</a></li>
+            <li class="{% if '/openstack/rules/' in request.path %}active{% endif %}"><a href="#"> Rules</a></li>
         </ul>
     </li>
     <li class="menu-list"><a href=""><i class="fa fa-sitemap"></i> <span>Network</span></a>

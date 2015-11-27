@@ -12,6 +12,7 @@ from django.core.urlresolvers import reverse_lazy, reverse
 from models import *
 from forms import HypervisorsAddForm, HypervisorsEditForm, CollertorAddForm
 from api.hostInfo import HostInfo
+from api.socketPOperation import SocketOpt
 
 
 # Agent Information
@@ -38,18 +39,16 @@ class MonitorView(generic.ListView):
             idc = IDC.objects.get(name='ShangHai')
         context['hypervisors'] = Hypervisors.objects.filter(location_id = idc.id)
 
-        tcpCliSocket = socket(AF_INET, SOCK_STREAM)
-        try:
-            tcpCliSocket.connect(ADDR)
-            data = {'get':['172.16.17.110','172.16.17.120']}
-            tcpCliSocket.send(json.dumps(data))
-            web_data = tcpCliSocket.recv(BUFSIZ)
-            data = json.loads(web_data)
-            hosts = [HostInfo(info_dict) for info_dict in data]
-            tcpCliSocket.send('release')
-            tcpCliSocket.close()
-        except:
-            hosts = []
+        collertors = list(set([hypervisor.collector for hypervisor in context['hypervisors']]))
+        data = []
+        for collertor in collertors:
+            hostnames = [ hypervisor.hostname for hypervisor in collertor.collector_hypervisors.all()]
+            hostnames = list(set(hostnames))
+            socket = SocketOpt()
+            data.extend(socket.getMonitorData(hostnames,collertor.hostname, collertor.port))
+
+        hosts = [HostInfo(info_dict) for info_dict in data]
+
         context['hosts'] = hosts
         return context
 
@@ -113,30 +112,31 @@ class HypervisorEditView(generic.FormView):
 
         return super(HypervisorEditView,self).get(request,*args, **kwargs)
 
-    def post(self, request, *args, **kwargs):
-        form = HypervisorsEditForm(request.POST)
-        if form.is_valid():
-            data =  form.cleaned_data
-            try:
-                form.save(form)
-            except Exception,e:
-                print str(e)
-                return self.form_invalid(form=form)
-        else:
-            return self.form_invalid(form=form)
-
-        return super(HypervisorEditView,self).post(request, *args, **kwargs)
-
+# class HypervisorDeleteView(generic.DeleteView):
+#     success_url =  reverse_lazy('newtouch:hypervisors:hypervisors_manager')
+#     model = Hypervisors
 
 class CollectorView(generic.ListView):
     model = Collector
     template_name = 'hypervisors/collertor.html'
     context_object_name = 'collertors'
 
+    def get_context_data(self, **kwargs):
+        context = super(CollectorView, self).get_context_data(**kwargs)
+        status = []
+        for collector in context['collertors']:
+            one_status = True
+            # stauts = test_collertor(collector.hostname, collector.port)
+            status.append(one_status)
+
+        context['collertors'] = zip(context['collertors'], status)
+        return  context
+
+
 class CollectorDetailView(generic.DetailView):
     model = Collector
     template_name = 'hypervisors/collertor.html'
-    context_object_name = 'collertors'
+    context_object_name = 'collertor'
 
 class CollertorAddView(generic.FormView):
     form_class = CollertorAddForm
@@ -171,5 +171,5 @@ class CollertorAddView(generic.FormView):
 class CollertorEditView(generic.FormView):
     pass
 
-class CollertorDeteleView(generic.FormView):
-    pass
+# class CollertorDeteleView(generic.DeleteView):
+#     pass

@@ -2,8 +2,10 @@ class HostInfo(object):
     
     def __init__(self, info_dict):
         self.server = info_dict['server']
-        
-        
+        if 1 == len(info_dict.keys()):
+            self.error = True
+            return
+
         self.procNumb = info_dict['proc']['procNumb'] if\
                         info_dict['proc'] else ''
                         

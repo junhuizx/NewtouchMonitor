@@ -12,9 +12,6 @@
         Hypervisors
     </h3>
     <ul class="breadcrumb">
-{#        <li>#}
-{#            <a href={% url "newtouch:hypervisors:hypervisors_collector" %}>Collertor</a>#}
-{#        </li>#}
         <li class="active">
            Collertor
         </li>
@@ -26,8 +23,8 @@
             <section class="panel">
                 <header class="panel-heading">
                     Collertor
-                    <span class="tools pull-right">
-                        <a role="button" href="{% url 'newtouch:hypervisors:hypervisors_collector_add' %}" class="pull-right btn btn-primary">Add</a>
+                    <span class="pull-right">
+                        <a role="button" href="{% url 'newtouch:hypervisors:hypervisors_collector_add' %}" class="btn btn-primary">Add</a>
                      </span>
                 </header>
                 <div class="panel-body">
@@ -36,17 +33,19 @@
                             <table class="display table table-bordered table-striped dataTable" id="dynamic-table" aria-describedby="dynamic-table_info">
                                 <thead>
                                     <tr role="row">
-                                        <th class="sorting" role="columnheader" tabindex="1" aria-controls="dynamic-table" rowspan="1" colspan="1">ID</th>
-                                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1">name</th>
-                                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1">user</th>
-                                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1">key</th>
-                                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1">hostname</th>
-                                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1">port</th>
-                                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1">update_time</th>
+                                        <th class="sorting">ID</th>
+                                        <th class="sorting">name</th>
+                                        <th class="sorting">user</th>
+                                        <th class="sorting">key</th>
+                                        <th class="sorting">hostname</th>
+                                        <th class="sorting">port</th>
+                                        <th class="sorting">update_time</th>
+                                        <th class="sorting">status</th>
+                                        <th class="sorting">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody role="alert" aria-live="polite" aria-relevant="all">
-                                    {% for collertor in collertors %}
+                                    {% for collertor,status in collertors %}
                                         <tr class="gradeX odd">
                                             <td class="sorting_1">{{ collertor.id }}</td>
                                             <td class=" ">{{ collertor.name }}</td>
@@ -55,6 +54,19 @@
                                             <td class=" ">{{ collertor.hostname }}</td>
                                             <td class=" ">{{ collertor.port }}</td>
                                             <td class=" ">{{ collertor.update_time }}</td>
+                                            <td class=" ">{{ status }}</td>
+                                            <td class=" ">
+                                                <div class="btn-group">
+                                                    <a role="button" href={% url 'newtouch:hypervisors:hypervisors_collector_delete'  collertor.id %} class="btn btn-danger">Delete</a>
+{#                                                    <button data-toggle="dropdown" class="btn btn-info dropdown-toggle" type="button">#}
+{#                                                        <span class="caret"></span>#}
+{#                                                        <span class="sr-only">Toggle Dropdown</span>#}
+{#                                                    </button>#}
+{#                                                    <ul aria-labelledby="btnGroupDrop1" role="menu" class="dropdown-menu">#}
+{#                                                        <li><a href={% url 'newtouch:hypervisors:hypervisors_manager_delete' hypervisor.id %}>Delete</a></li>#}
+{#                                                    </ul>#}
+                                                </div>
+                                            </td>
                                         </tr>
                                     {% endfor %}
                                 </tbody>

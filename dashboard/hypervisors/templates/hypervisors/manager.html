@@ -48,27 +48,28 @@
                 </header>
                 <div class="panel-body">
                     <div class="adv-table">
+
                         <div id="dynamic-table_wrapper" class="dataTables_wrapper form-inline" role="grid">
-                            <table class="display table table-bordered table-striped dataTable" id="dynamic-table" aria-describedby="dynamic-table_info">
+                            <table class="display table table-bordered table-striped" id="dynamic-table">
                                 <thead>
                                     <tr role="row">
-                                        <th class="sorting" role="columnheader" tabindex="1" aria-controls="dynamic-table" rowspan="1" colspan="1">ID</th>
-                                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1">Hostname</th>
-                                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1">Update Time</th>
-                                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1">SNMP</th>
-                                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1">SSH</th>
-                                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1">Action</th>
+                                        <th>ID</th>
+                                        <th>Hostname</th>
+                                        <th>Update Time</th>
+                                        <th>SNMP</th>
+                                        <th>SSH</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody role="alert" aria-live="polite" aria-relevant="all">
                                     {% for hypervisor in hypervisors %}
                                         <tr class="gradeX odd">
-                                            <td class="sorting_1">{{ hypervisor.id }}</td>
-                                            <td class=" ">{{ hypervisor.hostname }}</td>
-                                            <td class=" ">{{ hypervisor.create_time }}</td>
-                                            <td class=" ">{{ hypervisor.snmp_commit }}</td>
-                                            <td class=" ">{{ hypervisor.ssh_username }}</td>
-                                            <td class=" ">
+                                            <td>{{ hypervisor.id }}</td>
+                                            <td>{{ hypervisor.hostname }}</td>
+                                            <td>{{ hypervisor.create_time }}</td>
+                                            <td>{{ hypervisor.snmp_commit }}</td>
+                                            <td>{{ hypervisor.ssh_username }}</td>
+                                            <td>
                                                 <div class="btn-group">
                                                     <a role="button" href={% url 'newtouch:hypervisors:hypervisors_manager_edit'  hypervisor.id %} class="btn btn-info">Edit</a>
                                                     <button data-toggle="dropdown" class="btn btn-info dropdown-toggle" type="button">
@@ -76,7 +77,7 @@
                                                         <span class="sr-only">Toggle Dropdown</span>
                                                     </button>
                                                     <ul aria-labelledby="btnGroupDrop1" role="menu" class="dropdown-menu">
-                                                        <li><a href="#">Delete</a></li>
+                                                        <li><a href={% url 'newtouch:hypervisors:hypervisors_manager_delete' hypervisor.id %}>Delete</a></li>
                                                     </ul>
                                                 </div>
                                             </td>

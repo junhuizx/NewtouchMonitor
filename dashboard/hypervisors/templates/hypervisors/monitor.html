@@ -2,6 +2,7 @@
 {% block title %}
     <title>Hypervisors-Monitor</title>
 {% endblock %}
+
 {% block page-heading %}
     <h3>
         Hypervisors
@@ -39,28 +40,35 @@
                             <table class="display table table-bordered table-striped dataTable" id="dynamic-table" aria-describedby="dynamic-table_info">
                                 <thead>
                                     <tr role="row">
-                                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" >Server</th>
-                                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" >Host IP</th>
-                                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" >CPU Usage</th>
-                                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" >CPU Load</th>
-                                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" >Memory Usgae</th>
-                                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" >Net In/Out</th>
-                                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" >Disk</th>
-                                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="dynamic-table" rowspan="1" colspan="1" >Process Num</th>
+                                        <th>Hostname</th>
+                                        <th>CPU Usage</th>
+                                        <th>CPU Load</th>
+                                        <th>Memory Usgae</th>
+                                        <th>Net In/Out</th>
+                                        <th>Disk</th>
+                                        <th>Process Num</th>
                                     </tr>
                                 </thead>
                                 <tbody role="alert" aria-live="polite" aria-relevant="all">
-                                {% for host in hosts %}
-                                    <tr class="gradeX odd">
-                                        <td>{{ server.id }}</td>
+                                    {% for host in hosts %}
+                                        <tr class="gradeX odd">
                                         <td>{{ host.server }}</td>
-                                        <td>{{ host.cpuUsage }}</td>
-                                        <td>{{ host.cpuLoad }}</td>
-                                        <td>{{ host.memUsage }}</td>
-                                        <td>{{ host.inTotal }} / {{ host.outTotal }}</td>
-                                        <td>{{ host.diskUsed }} / {{ host.diskTotal }}</td>
-                                        <td>{{ host.procNumb }}</td>
-                                    </tr>
+                                        {% if host.error %}
+                                            <td> - </td>
+                                            <td> - </td>
+                                            <td> - </td>
+                                            <td> -/- </td>
+                                            <td> -/- </td>
+                                            <td> - </td>
+                                        {% else %}
+                                            <td>{{ host.cpuUsage }}</td>
+                                            <td>{{ host.cpuLoad }}</td>
+                                            <td>{{ host.memUsage }}</td>
+                                            <td>{{ host.inTotal }} / {{ host.outTotal }}</td>
+                                            <td>{{ host.diskUsed }} / {{ host.diskTotal }}</td>
+                                            <td>{{ host.procNumb }}</td>
+                                        {% endif %}
+                                        </tr>
                                     {% endfor %}
                                 </tbody>
                             </table>

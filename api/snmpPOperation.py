@@ -10,12 +10,14 @@ PRECISION = 2
 class snmpOprt(object):
 
 	def __init__(self, HostId):
+		
+		self.session = netsnmp.Session(Version=2,DestHost=HostId,
+							   Community='public')
+		
+		SysDesc = '.1.3.6.1.2.1.1.1.0'
+		oid1 = netsnmp.Varbind(SysDesc,'',5,'INTEGER')
+		getOidList = netsnmp.VarList(oid1)
 		try:
-			self.session = netsnmp.Session(Version=2,DestHost=HostId,Community='public')
-			
-			SysDesc = '.1.3.6.1.2.1.1.1.0'
-			oid1 = netsnmp.Varbind(SysDesc,'',5,'INTEGER')
-			getOidList = netsnmp.VarList(oid1)
 			result = self.session.get(getOidList)
 			print result
 		except Exception, error:

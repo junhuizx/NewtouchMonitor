@@ -1,5 +1,17 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+
+{% block title %}
+    <title>
+        Edit Hypervisor
+    </title>
+{% endblock %}
+
+{% block css %}
+    <!--multi-select-->
+    <link rel="stylesheet" type="text/css" href="{% static "js/jquery-multi-select/css/multi-select.css" %}" />
+{% endblock %}
+
 {% block page-heading %}
     <h3>
         Hypervisors
@@ -74,7 +86,9 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputFile">{{ form.rules.label }}</label>
-                        {{ form.rules }}
+                         <div class="col-md-12">
+                            {{ form.rules }}
+                         </div>
                         {% for error in form.rules.errors %}
                             <div class="has-error">
                                 <p class="help-block">{{ error }}</p>
@@ -135,3 +149,11 @@
     <div class="col-lg-3"></div>
 </div>
 {% endblock %}
+
+{% block js %}
+    <!--multi-select-->
+    <script type="text/javascript" src="{% static "js/jquery-multi-select/js/jquery.multi-select.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/jquery-multi-select/js/jquery.quicksearch.js" %}"></script>
+    <script src="{% static "js/multi-select-init.js" %}"></script>
+{% endblock %}
+
