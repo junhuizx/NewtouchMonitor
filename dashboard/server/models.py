@@ -12,18 +12,18 @@ class IDC(models.Model):
     def __unicode__(self):
         return self.name
 
-class HypervisorsRules(models.Model):
-    HYPERVISORS_RULES_TYPE_CHOICES = (('CPU Usgae', 'CPU Usgae'),
+class ServerRules(models.Model):
+    SERVER_RULES_TYPE_CHOICES = (('CPU Usgae', 'CPU Usgae'),
                                  ('CPU Load','CPU Load'),
                                  ('Memory Usgae','Memory Usgae'),
                                  ('Disk Usgae','Disk Usgae'),
                                  ('Process Num','Process Num'))
 
-    HYPERVISORS_RULES_THRESHOLD_USAGE_CHOICES = (('30', '30-50%'),
+    SERVER_RULES_THRESHOLD_USAGE_CHOICES = (('30', '30-50%'),
                                                  ('50', '50-80%'),
                                                  ('80', '80+%'))
 
-    HYPERVISORS_RULES_THRESHOLD_LOAD_CHOICES = (('1.0', '1.0-1.5'),
+    SERVER_RULES_THRESHOLD_LOAD_CHOICES = (('1.0', '1.0-1.5'),
                                                 ('1.5', '1.5-2.0'),
                                                 ('2.0', '2.0+'))
 
@@ -32,9 +32,9 @@ class HypervisorsRules(models.Model):
                                                ('300', '300'))
 
     name = models.CharField(max_length=128)
-    type = models.CharField(max_length=32, choices=HYPERVISORS_RULES_TYPE_CHOICES)
-    threshold_usage = models.CharField(max_length=32, choices=HYPERVISORS_RULES_THRESHOLD_USAGE_CHOICES)
-    threshold_load = models.CharField(max_length=32, choices=HYPERVISORS_RULES_THRESHOLD_LOAD_CHOICES)
+    type = models.CharField(max_length=32, choices=SERVER_RULES_TYPE_CHOICES)
+    threshold_usage = models.CharField(max_length=32, choices=SERVER_RULES_THRESHOLD_USAGE_CHOICES)
+    threshold_load = models.CharField(max_length=32, choices=SERVER_RULES_THRESHOLD_LOAD_CHOICES)
     threshold_num = models.CharField(max_length=32, choices=HYPERVISORS_RULES_THRESHOLD_NUM_CHOICES)
     create_time = models.DateTimeField(editable=False, auto_now_add=True)
     update_time = models.DateTimeField(editable=False,auto_now=True)
@@ -59,14 +59,14 @@ class Collector(models.Model):
         return self.name
 
 
-class Hypervisors(models.Model):
+class Server(models.Model):
     hostname = models.GenericIPAddressField()
-    collector = models.ForeignKey(Collector, related_name='collector_hypervisors')
+    collector = models.ForeignKey(Collector, related_name='collector_server')
     create_time = models.DateTimeField(editable=False, auto_now_add=True)
     update_time = models.DateTimeField(editable=False,auto_now=True)
-    location = models.ForeignKey(IDC, related_name='idc_hypervisors')
-    user = models.ForeignKey(User, related_name='user_hypervisors',blank=True)
-    rules = models.ManyToManyField(HypervisorsRules, related_name= 'rules_hypervisors',blank=True)
+    location = models.ForeignKey(IDC, related_name='idc_server')
+    user = models.ForeignKey(User, related_name='user_server',blank=True)
+    rules = models.ManyToManyField(ServerRules, related_name= 'rules_server',blank=True)
     snmp_version = models.CharField(max_length=4,
                                     choices=(('1', '1'),('2', '2c'),),
                                     default='2c')

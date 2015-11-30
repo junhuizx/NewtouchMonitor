@@ -1,13 +1,35 @@
+# -*- coding: utf-8 -*-
+
 import json,pprint
 
 from django.views.generic import ListView, DetailView
+import requests
 from api.openstack_api import OpenStackAgentClient
 from models import OpenStackAgent
+from django.conf import settings
 
 class OpenStackServer(object):
-    def __init__(self, server):
+    def __init__(self, server, project_id):
         self.uuid = server['uuid']
         self.name = server['name']
+        self.project_id = project_id
+
+    def fill_instance(self, token):
+        url = settings.REDIS_BASE_URL + "/v2/%s/guest/%s" % (self.project_id, self.uuid)
+        headers = {'X-Auth-Token': '%s' % (token)}
+        re = requests.get(url, headers=headers, verify =False)
+
+        return_data = json.loads(re.text)
+        if return_data['return']:
+            self.return_data = True
+            data_dict =  eval(return_data['return'])
+            self.memstat = data_dict['memstat']
+            self.netstat = data_dict['netstat']
+            self.diskstat = data_dict['diskstat']
+            self.processstat = data_dict['processstat']
+            self.login = data_dict['login']
+        else:
+            self.return_data = False
 
     def __unicode__(self):
         return  self.name
@@ -65,13 +87,18 @@ class OpenStackHypervisorDetailView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(OpenStackHypervisorDetailView, self).get_context_data(**kwargs)
-        context['servers'] = []
+        context['instances'] = []
 
         hypervisor_hostname = self.kwargs['hypervisor_hostname']
         agent = OpenStackAgent.objects.get(pk = self.kwargs['pk'])
         client = OpenStackAgentClient(agent.hostname, agent.port)
-        servers = client.hypervisor_server_list(hypervisor_hostname)['servers']
-        for server in servers:
-            context['servers'].append(OpenStackServer(server))
+        instances = client.hypervisor_server_list(hypervisor_hostname)['servers']
+
+        token = client.get_token()['token']
+        for instance in instances:
+            project_id = client.get_project_id()['project_id']
+            instance = OpenStackServer(instance, project_id)
+            instance.fill_instance(token)
+            context['instances'].append(instance)
 
         return context

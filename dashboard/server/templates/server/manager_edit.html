@@ -3,7 +3,7 @@
 
 {% block title %}
     <title>
-        Edit Hypervisor
+        Edit Server
     </title>
 {% endblock %}
 
@@ -14,14 +14,14 @@
 
 {% block page-heading %}
     <h3>
-        Hypervisors
+        Server
     </h3>
     <ul class="breadcrumb">
         <li>
-            <a href={% url "newtouch:hypervisors:hypervisors_manager" %}>Manager</a>
+            <a href={% url "newtouch:server:server_manager" %}>Manager</a>
         </li>
         <li class="active">
-           Edit Hypervisor
+           Edit Server
         </li>
     </ul>
 {% endblock %}
@@ -34,7 +34,7 @@
                 Add
             </header>
             <div class="panel-body">
-                <form role="form" action="{% url "newtouch:hypervisors:hypervisors_manager_edit" form.id.value  %}" method="post">
+                <form role="form" action="{% url "newtouch:server:server_manager_edit" form.id.value  %}" method="post">
                     {% csrf_token %}
                     {{ form.non_field_errors }}
                     <div class="form-group">

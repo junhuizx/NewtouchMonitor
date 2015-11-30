@@ -1,12 +1,12 @@
 <ul class="nav nav-pills nav-stacked custom-nav">
     <li class="{% if request.path == '/' %}active{% endif %}"><a href={% url 'newtouch:overview:index' %}><i class="fa fa-home"></i> <span>Overview</span></a></li>
-    <li class="menu-list {% if '/hypervisors/' in request.path %}active{% endif %}"><a href=""><i class="fa fa-laptop"></i> <span>Hypervisors</span></a>
+    <li class="menu-list {% if '/server/' in request.path %}active{% endif %}"><a href=""><i class="fa fa-laptop"></i> <span>Server</span></a>
         <ul class="sub-menu-list">
-            <li class=" {% if '/hypervisors/overview/' in request.path %}active{% endif %}"><a href={% url "newtouch:hypervisors:hypervisors_overview" %}> Overview</a></li>
-            <li class=" {% if '/hypervisors/monitor/' in request.path %}active{% endif %}"><a href={% url "newtouch:hypervisors:hypervisors_monitor" %}> Monitor</a></li>
-            <li class=" {% if '/hypervisors/manager/' in request.path %}active{% endif %}"><a href={% url "newtouch:hypervisors:hypervisors_manager" %}> Manager</a></li>
-            <li class=" {% if '/hypervisors/rules/' in request.path %}active{% endif %}"><a href={% url "newtouch:hypervisors:hypervisors_rules" %}> Rules</a></li>
-            <li class=" {% if '/hypervisors/collector/' in request.path %}active{% endif %}"><a href={% url "newtouch:hypervisors:hypervisors_collector" %}> Collectors</a></li>
+            <li class=" {% if '/server/overview/' in request.path %}active{% endif %}"><a href={% url "newtouch:server:server_overview" %}> Overview</a></li>
+            <li class=" {% if '/server/monitor/' in request.path %}active{% endif %}"><a href={% url "newtouch:server:server_monitor" %}> Monitor</a></li>
+            <li class=" {% if '/server/manager/' in request.path %}active{% endif %}"><a href={% url "newtouch:server:server_manager" %}> Manager</a></li>
+            <li class=" {% if '/server/rules/' in request.path %}active{% endif %}"><a href={% url "newtouch:server:server_rules" %}> Rules</a></li>
+            <li class=" {% if '/server/collector/' in request.path %}active{% endif %}"><a href={% url "newtouch:server:server_collector" %}> Collectors</a></li>
         </ul>
     </li>
 

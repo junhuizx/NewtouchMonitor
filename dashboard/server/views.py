@@ -10,7 +10,7 @@ from django.views import generic
 from django.core.urlresolvers import reverse_lazy, reverse
 
 from models import *
-from forms import HypervisorsAddForm, HypervisorsEditForm, CollertorAddForm
+from forms import ServerAddForm, ServerEditForm, CollertorAddForm
 from api.hostInfo import HostInfo
 from api.socketPOperation import SocketOpt
 
@@ -23,10 +23,10 @@ BUFSIZ = 1024*1024
 
 # Create your views here.
 class IndexView(generic.TemplateView):
-    template_name = 'hypervisors/index.html'
+    template_name = 'server/index.html'
 
 class MonitorView(generic.ListView):
-    template_name = 'hypervisors/monitor.html'
+    template_name = 'server/monitor.html'
     queryset = []
 
     def get_context_data(self, **kwargs):
@@ -37,12 +37,12 @@ class MonitorView(generic.ListView):
             idc = IDC.objects.get(name=context['tag'])
         else:
             idc = IDC.objects.get(name='ShangHai')
-        context['hypervisors'] = Hypervisors.objects.filter(location_id = idc.id)
+        context['servers'] = Server.objects.filter(location_id = idc.id)
 
-        collertors = list(set([hypervisor.collector for hypervisor in context['hypervisors']]))
+        collertors = list(set([server.collector for server in context['servers']]))
         data = []
         for collertor in collertors:
-            hostnames = [ hypervisor.hostname for hypervisor in collertor.collector_hypervisors.all()]
+            hostnames = [ server.hostname for server in collertor.collector_server.all()]
             hostnames = list(set(hostnames))
             socket = SocketOpt()
             data.extend(socket.getMonitorData(hostnames,collertor.hostname, collertor.port))
@@ -53,10 +53,10 @@ class MonitorView(generic.ListView):
         return context
 
 class MonitorDetailView(generic.DetailView):
-    template_name = 'hypervisors/monitor_detail.html'
+    template_name = 'server/monitor_detail.html'
 
 class ManagerView(generic.ListView):
-    template_name = 'hypervisors/manager.html'
+    template_name = 'server/manager.html'
     queryset = []
 
     def get_context_data(self, **kwargs):
@@ -67,50 +67,51 @@ class ManagerView(generic.ListView):
             idc = IDC.objects.get(name=context['tag'])
         else:
             idc = IDC.objects.get(name='ShangHai')
-        context['hypervisors'] = Hypervisors.objects.filter(location_id = idc.id)
+        context['servers'] = Server.objects.filter(location_id = idc.id)
 
         return context
 
-class HypervisorAddView(generic.FormView):
-    form_class = HypervisorsAddForm
-    success_url = reverse_lazy('newtouch:hypervisors:hypervisors_manager')
-    template_name = 'hypervisors/manager_add.html'
+class ServerAddView(generic.FormView):
+    form_class = ServerAddForm
+    success_url = reverse_lazy('newtouch:server:server_manager')
+    template_name = 'server/manager_add.html'
 
     def post(self, request, *args, **kwargs):
-        form = HypervisorsAddForm(request.POST)
+        form = ServerAddForm(request.POST)
         if form.is_valid():
             print form.cleaned_data
             try:
                 form.save(form)
             except Exception,e:
+                print str(e)
                 return self.form_invalid(form=form)
         else:
             return self.form_invalid(form=form)
-        return super(HypervisorAddView,self).post(request, *args, **kwargs)
+        return super(ServerAddView,self).post(request, *args, **kwargs)
 
 
-class HypervisorEditView(generic.FormView):
-    form_class = HypervisorsEditForm
+class ServerEditView(generic.FormView):
+    form_class = ServerEditForm
     required_css_class = 'required'
-    success_url = reverse_lazy('newtouch:hypervisors:hypervisors_manager')
-    template_name = 'hypervisors/manager_edit.html'
+    success_url = reverse_lazy('newtouch:server:server_manager')
+    template_name = 'server/manager_edit.html'
 
     def get(self, request, *args, **kwargs):
-        hypervisor = Hypervisors.objects.get(pk=kwargs.get('pk'))
+        server = Server.objects.get(pk=kwargs.get('pk'))
         self.initial = {
             'id': kwargs.get('pk'),
-            'hostname' : hypervisor.hostname,
-            'location': hypervisor.location,
-            'collector': hypervisor.collector,
-            'user': hypervisor.user,
-            'rules': hypervisor.rules.all(),
-            'snmp_version': hypervisor.snmp_version,
-            'snmp_commit': hypervisor.snmp_commit,
-            'ssh_username':hypervisor.ssh_username ,
-            'ssh_password':hypervisor.ssh_password
+            'hostname' : server.hostname,
+            'location': server.location,
+            'collector': server.collector,
+            'user': server.user,
+            'rules': server.rules.all(),
+            'snmp_version': server.snmp_version,
+            'snmp_commit': server.snmp_commit,
+            'ssh_username':server.ssh_username ,
+            'ssh_password':server.ssh_password
         }
 
-        return super(HypervisorEditView,self).get(request,*args, **kwargs)
+        return super(ServerEditView,self).get(request,*args, **kwargs)
 
 # class HypervisorDeleteView(generic.DeleteView):
 #     success_url =  reverse_lazy('newtouch:hypervisors:hypervisors_manager')
@@ -118,7 +119,7 @@ class HypervisorEditView(generic.FormView):
 
 class CollectorView(generic.ListView):
     model = Collector
-    template_name = 'hypervisors/collertor.html'
+    template_name = 'server/collertor.html'
     context_object_name = 'collertors'
 
     def get_context_data(self, **kwargs):
@@ -135,13 +136,13 @@ class CollectorView(generic.ListView):
 
 class CollectorDetailView(generic.DetailView):
     model = Collector
-    template_name = 'hypervisors/collertor.html'
+    template_name = 'server/collertor.html'
     context_object_name = 'collertor'
 
 class CollertorAddView(generic.FormView):
     form_class = CollertorAddForm
-    success_url = reverse_lazy('newtouch:hypervisors:hypervisors_collector')
-    template_name = 'hypervisors/collertor_add.html'
+    success_url = reverse_lazy('newtouch:server:server_collector')
+    template_name = 'server/collertor_add.html'
 
     def get(self, request, *args, **kwargs):
         Collectors = Collector.objects.all().order_by('-id')

@@ -24,7 +24,7 @@
                 <header class="panel-heading">
                     Collertor
                     <span class="pull-right">
-                        <a role="button" href="{% url 'newtouch:hypervisors:hypervisors_collector_add' %}" class="btn btn-primary">Add</a>
+                        <a role="button" href="{% url 'newtouch:server:server_collector_add' %}" class="btn btn-primary">Add</a>
                      </span>
                 </header>
                 <div class="panel-body">
@@ -57,7 +57,7 @@
                                             <td class=" ">{{ status }}</td>
                                             <td class=" ">
                                                 <div class="btn-group">
-                                                    <a role="button" href={% url 'newtouch:hypervisors:hypervisors_collector_delete'  collertor.id %} class="btn btn-danger">Delete</a>
+                                                    <a role="button" href={% url 'newtouch:server:server_collector_delete'  collertor.id %} class="btn btn-danger">Delete</a>
 {#                                                    <button data-toggle="dropdown" class="btn btn-info dropdown-toggle" type="button">#}
 {#                                                        <span class="caret"></span>#}
 {#                                                        <span class="sr-only">Toggle Dropdown</span>#}

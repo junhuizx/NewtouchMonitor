@@ -6,14 +6,14 @@
 
 {% block page-heading %}
     <h3>
-        Hypervisors
+        Server
     </h3>
     <ul class="breadcrumb">
         <li>
-            <a href={% url "newtouch:hypervisors:hypervisors_manager" %}>Manager</a>
+            <a href={% url "newtouch:server:server_manager" %}>Manager</a>
         </li>
         <li class="active">
-           Delete Hypervisor
+           Delete Server
         </li>
     </ul>
 {% endblock %}
@@ -23,7 +23,7 @@
     <div class="col-lg-6">
         <section class="panel">
             <header class="panel-heading">
-                Delete Hypervisors
+                Delete Server
             </header>
             <div class="panel-body">
                 <form action="" method="post">

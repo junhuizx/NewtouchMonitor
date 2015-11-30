@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% load dict_action %}
 
 {% block title %}
     <title>Openstack</title>
@@ -39,23 +40,41 @@
                             <tr>
                                 <th class="center">name</th>
                                 <th class="center">UUID</th>
+                                <th class="center">Guest Agent</th>
+                                <th class="center">Memory</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for server in servers%}
+                            {% for instance in instances %}
                                 <tr class="gradeX">
-                                    <td class="center">{{ server.name }}</td>
-                                    <td class="center">{{ server.uuid }}</td>
+                                    {% if instance.return_data %}
+                                        <td class="center"><a href="#">{{ instance.name }}</a></td>
+                                    {% else %}
+                                        <td class="center">{{ instance.name }}</td>
+                                    {% endif %}
+                                    <td class="center">{{ instance.uuid }}</td>
+                                    <td class="center">{{ instance.return_data }}</td>
+                                    {% if instance.return_data %}
+                                        <td class="center">{{ instance.memstat | memory_dict }}</td>
+                                        <td class="center">{{ instance.diskstat | disk_dict }}</td>
+                                    {% else %}
+                                        <td class="center"> - / - </td>
+                                        <td class="center"> - </td>
+                                    {% endif %}
+{#                                    <td class="center">{{ instance.memstat }}</td>#}
                                 </tr>
+
                             {% endfor %}
                         </tbody>
                     </table>
                 </div>
+
             </div>
         </section>
     </div>
 </div>
 {% endblock %}
+
 
 {% block js %}
     <!--dynamic table-->

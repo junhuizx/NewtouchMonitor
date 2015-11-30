@@ -1,8 +1,8 @@
 from django import forms
 from django.core.exceptions import ObjectDoesNotExist
-from dashboard.hypervisors.models import *
+from dashboard.server.models import *
 
-class HypervisorsAddForm(forms.Form):
+class ServerAddForm(forms.Form):
     hostname = forms.GenericIPAddressField(widget=forms.TextInput(attrs={'class': 'form-control m-bot15'}))
     location = forms.ModelChoiceField(queryset=IDC.objects.all(),
                                       widget=forms.Select(attrs={'class': 'form-control m-bot15'}))
@@ -20,20 +20,20 @@ class HypervisorsAddForm(forms.Form):
                                                                  "placeholder":"SNMP COMMIT" }))
 
 
-    def save(self, hypervisor):
+    def save(self, server):
         try:
-            Hypervisors.objects.get(hostname=hypervisor.cleaned_data['hostname'], location = hypervisor.cleaned_data['location'])
+            Server.objects.get(hostname=server.cleaned_data['hostname'], location = server.cleaned_data['location'])
             raise forms.ValidationError("Already had")
         except ObjectDoesNotExist:
-            new_hypervisor = Hypervisors.objects.create(hostname=hypervisor.cleaned_data['hostname'],
-                                                        snmp_commit = hypervisor.cleaned_data['snmp_commit'],
-                                                        snmp_version = hypervisor.cleaned_data['snmp_version'],
-                                                        location = hypervisor.cleaned_data['location'],
-                                                        collector = hypervisor.cleaned_data['collector'],
-                                                        user = hypervisor.cleaned_data['user'])
-            new_hypervisor.save()
+            new_server = Server.objects.create(hostname=server.cleaned_data['hostname'],
+                                                        snmp_commit = server.cleaned_data['snmp_commit'],
+                                                        snmp_version = server.cleaned_data['snmp_version'],
+                                                        location = server.cleaned_data['location'],
+                                                        collector = server.cleaned_data['collector'],
+                                                        user = server.cleaned_data['user'])
+            new_server.save()
 
-class HypervisorsEditForm(forms.Form):
+class ServerEditForm(forms.Form):
     id = forms.IntegerField(show_hidden_initial=False, widget=forms.TextInput(attrs={'class': 'form-control m-bot15','readonly':'readonly'}))
     hostname = forms.GenericIPAddressField(widget=forms.TextInput(attrs={'class': 'form-control m-bot15','readonly':'readonly'}),
                                            required=False)
@@ -53,7 +53,7 @@ class HypervisorsEditForm(forms.Form):
                                                                 'autocomplete':"off",
                                                                  "placeholder":"SNMP COMMIT" }))
     rules = forms.ModelMultipleChoiceField(required=False,
-                                   queryset=HypervisorsRules.objects.all(),
+                                   queryset=ServerRules.objects.all(),
                                    widget=forms.SelectMultiple(attrs={'class': 'multi-select',
                                                                       'id':"my_multi_select3",}))
     ssh_username = forms.CharField(max_length=128,
@@ -76,11 +76,11 @@ class HypervisorsEditForm(forms.Form):
                 self._errors['ssh_password_confirm'] = [u'Passwords must match.']
         return self.cleaned_data
 
-    def save(self, hypervisor):
-        data = hypervisor.cleaned_data
-        hy = Hypervisors.objects.get(pk=data['id'])
-        hy.__dict__.update(data)
-        hy.save()
+    def save(self, server):
+        data = server.cleaned_data
+        server = Server.objects.get(pk=data['id'])
+        server.__dict__.update(data)
+        server.save()
 
 class CollertorAddForm(forms.Form):
     id = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control m-bot15','readonly':'readonly'}))
