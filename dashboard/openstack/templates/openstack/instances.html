@@ -38,27 +38,34 @@
                     <table  class="display table table-bordered table-striped" id="dynamic-table">
                         <thead>
                             <tr>
-                                <th class="center">name</th>
-                                <th class="center">UUID</th>
-                                <th class="center">Guest Agent</th>
-                                <th class="center">Memory</th>
+                                <th>name</th>
+{#                                <th>UUID</th>#}
+                                <th>Guest Agent</th>
+                                <th>Memory</th>
+                                <th>Disk Speed(Read/Write)</th>
+                                <th>Disk Total(Read/Write)</th>
+                                <th>Network(Read/Write)</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for instance in instances %}
                                 <tr class="gradeX">
                                     {% if instance.return_data %}
-                                        <td class="center"><a href="#">{{ instance.name }}</a></td>
+                                        <td><a href="#">{{ instance.name }}</a></td>
                                     {% else %}
-                                        <td class="center">{{ instance.name }}</td>
+                                        <td>{{ instance.name }}</td>
                                     {% endif %}
-                                    <td class="center">{{ instance.uuid }}</td>
-                                    <td class="center">{{ instance.return_data }}</td>
+{#                                    <td>{{ instance.uuid }}</td>#}
+                                    <td>{{ instance.return_data }}</td>
                                     {% if instance.return_data %}
-                                        <td class="center">{{ instance.memstat | memory_dict }}</td>
-                                        <td class="center">{{ instance.diskstat | disk_dict }}</td>
+                                        <td>{{ instance.memstat | memory_dict }}</td>
+                                        <td>{{ instance.diskstat | disk_speed_list | linebreaks}}</td>
+                                        <td>{{ instance.diskstat | disk_total_list | linebreaks}}</td>
+                                        <td>{{ instance.netstat | network_total_list | linebreaks}}</td>
                                     {% else %}
                                         <td class="center"> - / - </td>
+                                        <td class="center"> - </td>
+                                        <td class="center"> - </td>
                                         <td class="center"> - </td>
                                     {% endif %}
 {#                                    <td class="center">{{ instance.memstat }}</td>#}
