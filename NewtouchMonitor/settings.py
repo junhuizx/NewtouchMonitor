@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'dashboard.openstack',
     'dashboard.rules',
     'dashboard.overview',
+    'dashboard.network',
 )
 
 MIDDLEWARE_CLASSES = (

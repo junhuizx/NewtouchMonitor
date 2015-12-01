@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 
 import json,pprint
+from django.core.exceptions import ObjectDoesNotExist
+from django.core.urlresolvers import reverse_lazy
+from django.forms.utils import ErrorList
 
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, FormView
 import requests
 from api.openstack_api import OpenStackAgentClient
 from models import OpenStackAgent
+from forms import OpenStackAgentAddForm,OpenStackAgentEditForm
 from django.conf import settings
 
 class OpenStackServer(object):
@@ -102,3 +106,47 @@ class OpenStackHypervisorDetailView(ListView):
             context['instances'].append(instance)
 
         return context
+
+class OpenStackAgentAddView(FormView):
+    form_class = OpenStackAgentAddForm
+    success_url = reverse_lazy('newtouch:openstack:openstack_index')
+    template_name = 'openstack/openstack_agent_add.html'
+
+    def post(self, request, *args, **kwargs):
+        form = OpenStackAgentAddForm(request.POST)
+        if form.is_valid():
+            try:
+                OpenStackAgent.objects.get(name=form.cleaned_data['name'])
+                errors = form._errors.setdefault("name", ErrorList())
+                errors.append(u"OpenStack Agent name had already used!")
+                return self.form_invalid(form=form)
+            except ObjectDoesNotExist:
+                form.save(form)
+        else:
+            return self.form_invalid(form=form)
+        return super(OpenStackAgentAddView,self).post(request, *args, **kwargs)
+
+class OpenStackAgentEditView(FormView):
+    form_class = OpenStackAgentEditForm
+    required_css_class = 'required'
+    success_url = reverse_lazy('newtouch:openstack:openstack_index')
+    template_name = 'openstack/openstack_agent_edit.html'
+
+    def post(self, request, *args, **kwargs):
+        form = OpenStackAgentEditForm(request.POST)
+        if form.is_valid():
+                form.save(form)
+        else:
+            return self.form_invalid(form=form)
+        return super(OpenStackAgentEditView,self).post(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        agent = OpenStackAgent.objects.get(pk=kwargs.get('pk'))
+        self.initial = {
+            'id': kwargs.get('pk'),
+            'name' : agent.name,
+            'hostname': agent.hostname,
+            'port': agent.port
+        }
+
+        return super(OpenStackAgentEditView, self).get(request,*args, **kwargs)

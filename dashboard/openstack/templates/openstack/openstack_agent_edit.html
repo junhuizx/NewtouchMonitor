@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>
+        Edit OpenStack Agent
+    </title>
+{% endblock %}
+
+{% block page-heading %}
+    <h3>
+        OpenStack
+    </h3>
+    <ul class="breadcrumb">
+        <li>
+            <a href={% url "newtouch:openstack:openstack_index" %}>OpenStack</a>
+        </li>
+        <li class="active">
+           Edit OpenStack Agent
+        </li>
+    </ul>
+{% endblock %}
+{% block page-body %}
+<div class="row">
+    <div class="col-lg-3"></div>
+    <div class="col-lg-6">
+        <section class="panel">
+            <header class="panel-heading">
+                Edit OpenStack Agent
+            </header>
+            <div class="panel-body">
+                <form role="form" action="{% url "newtouch:openstack:openstack_agent_edit" form.id.value %}" method="post">
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">{{ form.id.label }}</label>
+                        {{ form.id }}
+                        {{ form.id.errors }}
+                        {% for error in form.id.errors %}
+                            <div class="has-error">
+                                <p class="help-block">{{ error }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">{{ form.name.label }}</label>
+                        {{ form.name }}
+                        {% for error in form.name.errors %}
+                            <div class="has-error">
+                                <p class="help-block">{{ error }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">{{ form.hostname.label }}</label>
+                        {{ form.hostname }}
+                        {% for error in form.hostname.errors %}
+                            <div class="has-error">
+                                <p class="help-block">{{ error }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputFile">{{ form.port.label }}</label>
+                        {{ form.port }}
+                        {% for error in form.port.errors %}
+                            <div class="has-error">
+                                <p class="help-block">{{ error }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </section>
+    </div>
+    <div class="col-lg-3"></div>
+</div>
+{% endblock %}

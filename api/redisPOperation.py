@@ -44,16 +44,44 @@ class RedisHashOprt(object):
 			raise error
 
 
-	def filterHashTimeKey(self, hash_name, strat_key, end_key):
-		for position in xrange(1, len(strat_key)):
-			if strat_key[position] != end_key[position]:
+	def filterHashTimeKey(self,hash_name, chart_data=False, **kwargs):
+		if kwargs.get('start') and kwargs.get('end'):
+			start_key, end_key = kwargs['start'], kwargs['end']
+		else:
+			'''now time as end time and the 3 hours time before as start time '''
+			delay = 2.5*3600
+			local_time = time.time()
+			end_key = time.strftime(TimeFormat, time.localtime(local_time))
+			start_key = time.strftime(TimeFormat, time.localtime(local_time-delay))
+		
+		print start_key, end_key
+		for position in xrange(1, len(start_key)):
+			if start_key[position] != end_key[position]:
 				break
-		match_key = strat_key[0:position] + '*'
+		match_key = start_key[0:position] + '*'
 		try: 
 			hash_data = self.residDB.hscan(hash_name, 0, match_key, 1000)[1]
 			keys = sorted(hash_data.keys())
-			return [hash_data[key] for key in keys if \
-			  		key>=strat_key and key<=end_key]
+# 			print keys, '\n', len(keys)
+# 			print keys[]
+			host_all_info = [json.loads(hash_data[key]) for key in keys if \
+				  		key>=start_key and key<=end_key]
+			if not chart_data:
+				return host_all_info
+			else:
+				point_numb = 12
+				infos = host_all_info[-point_numb:]
+				info_dic = {'cpuUsage':[], 'cpuLoad':[],
+							'memUsage':[], 'procNumb':[]}
+				for info in infos:
+					info_dic['cpuUsage'].append(info['cpu']['cpuUsage'])
+					info_dic['cpuLoad'].append(info['cpu']['load'])
+					info_dic['memUsage'].append(info['memory']['memUsage'])
+					info_dic['procNumb'].append(info['proc']['procNumb'])
+				
+				return info_dic
+				
+				
 		except Exception, error:
 			logging.warning('Fail to filter data form redis!')
 			raise error
@@ -75,23 +103,23 @@ class RedisHashOprt(object):
 
 
 if __name__ == '__main__':
-	obj = RedisHashOprt(HostIP, Port, 1)
-	t = time.strftime(TimeFormat, time.localtime())
+	obj = RedisHashOprt(HostIP, Port)
+# 	t = time.strftime(TimeFormat, time.localtime())
 
 
-	data = {'cpu':{'usage': 35}, 'memory':{'totle':1010101, 'usage':72}, 'disk':{'totle':19478204, 'usage':7900000}}
-	print data['cpu']['usage']
+# 	data = {'cpu':{'usage': 35}, 'memory':{'totle':1010101, 'usage':72}, 'disk':{'totle':19478204, 'usage':7900000}}
+# 	print data['cpu']['usage']
 	# jdata = json.dumps(data)
 	# print t
 	# print jdata
 	# obj.setHash('local2', {t:jdata})
-	a = obj.getHash('local2')
-	b = a['2015-11-09-16:17:22']
-	print b
-	print type(b)
-	c = json.loads(json.dumps(b))
-	print c 
-	print data['cpu']['usage']
+# 	a = obj.getHash('local2')
+# 	b = a['2015-11-09-16:17:22']
+# 	print b
+# 	print type(b)
+# 	c = json.loads(json.dumps(b))
+# 	print c 
+# 	print data['cpu']['usage']
 	# obj.setHash('local2', {t:'monitor'+str(i)})
 
 	# print t
@@ -101,8 +129,11 @@ if __name__ == '__main__':
 	# 	time.sleep(1)
 	# print obj.getHash('local2')
 	# print time.time()
-
-	# print obj.filterHashTimeKey('local2', '2015-10-25-14:01:00', '2015-10-25-14:01:59')
+# 	hosts_reids_info = obj.filterHashTimeKey('127.0.0.1',
+# 								start = '2015-11-30-15:13:03', end ='2015-11-30-16:13:06')
+	hosts_reids_info = obj.filterHashTimeKey('127.0.0.1')
+	print hosts_reids_info
+	print len(hosts_reids_info)
 
 	# print obj.getHash('local2')
 	# print obj.delHashKey('local2', 'user1')

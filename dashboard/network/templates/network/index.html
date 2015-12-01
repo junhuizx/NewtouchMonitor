@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}
+    <title>Network</title>
+{% endblock %}
+
+{% block css %}
+{% endblock %}
+
+{% block page-heading %}
+    <h3>
+        Network <small>Subtext for header</small>
+    </h3>
+    <ul class="breadcrumb">
+        <li class="active">Network </li>
+    </ul>
+{% endblock %}
+
+{% block page-body %}
+    <div class="row">
+        <div class="col-sm-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    Syslog Mysql
+                    <span class="tools pull-right">
+                        <a href="javascript:;" class="fa fa-chevron-down"></a>
+                        <a href="javascript:;" class="fa fa-times"></a>
+                    </span>
+                </header>
+                <div class="panel-body">
+                    <div class="adv-table">
+                        <table  class="display table table-bordered table-striped" id="dynamic-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Hostname</th>
+                                    <th>DB Name</th>
+                                    <td>Mysql Username</td>
+                                    <td>Mysql Password</td>
+                                    <td>Syslog Tag</td>
+                                    <td>Updata Time</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for syslog_mysql in object_list%}
+                                <tr class="gradeX">
+                                    <td><a href="{% url 'newtouch:network:network_syslog' syslog_mysql.id %}">{{ syslog_mysql.name }}</a></td>
+                                    <td>{{ syslog_mysql.mysql_hostname }}</td>
+                                    <td>{{ syslog_mysql.mysql_db_name }}</td>
+                                    <td>{{ syslog_mysql.mysql_db_username }}</td>
+                                    <td>{{ syslog_mysql.mysql_db_password }}</td>
+                                    <td>{{ syslog_mysql.syslog_tag }}</td>
+                                    <td>{{ syslog_mysql.update_time }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

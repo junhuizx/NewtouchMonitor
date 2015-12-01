@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>Confirm OpenStack Agent</title>
+{% endblock %}
+
+{% block page-heading %}
+    <h3>
+        OpenStack
+    </h3>
+    <ul class="breadcrumb">
+        <li>
+            <a href={% url "newtouch:openstack:openstack_index" %}>OpenStack Agent</a>
+        </li>
+        <li class="active">
+           Delete OpenStack Agent
+        </li>
+    </ul>
+{% endblock %}
+{% block page-body %}
+<div class="row">
+    <div class="col-lg-3"></div>
+    <div class="col-lg-6">
+        <section class="panel">
+            <header class="panel-heading">
+                Delete OpenStack Agent
+            </header>
+            <div class="panel-body">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <p>Are you sure you want to delete "{{ object }}"?</p>
+                    <input class="btn btn-danger center-block" type="submit" value="Confirm" />
+                </form>
+            </div>
+        </section>
+    </div>
+    <div class="col-lg-3"></div>
+</div>
+{% endblock %}

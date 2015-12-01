@@ -10,16 +10,10 @@ PRECISION = 2
 class snmpOprt(object):
 
 	def __init__(self, HostId):
-		
-		self.session = netsnmp.Session(Version=2,DestHost=HostId,
-							   Community='public')
-		
-		SysDesc = '.1.3.6.1.2.1.1.1.0'
-		oid1 = netsnmp.Varbind(SysDesc,'',5,'INTEGER')
-		getOidList = netsnmp.VarList(oid1)
 		try:
-			result = self.session.get(getOidList)
-			print result
+			self.session = netsnmp.Session(Version=2,DestHost=HostId,
+							   			   Community='public')
+			print 'Success to connect host: ', HostId
 		except Exception, error:
 			logging.warning('Fial to connect host: ' + HostId)
 			raise error
@@ -128,7 +122,48 @@ class snmpOprt(object):
 		procNumb = '.1.3.6.1.2.1.25.1.6' 
 		
 		return {'procNumb' : self.__walk(procNumb)[0]}
+
+
+class HostInformation(object):
+
+	@staticmethod		
+	def getHostInfo(HostIP):
+		try:
+			snmpObj = snmpOprt(HostIP)
+			
+		except Exception, error:
+			logging.warn(error)
+			logging.warn('\nConnect '+str(HostIP)+'failure!\n')
+			return {'server':HostIP} 
 		
+		try:
+			cpu = snmpObj.getCpuData()
+			memory = snmpObj.getMemoryData()
+			disk = snmpObj.getDiskData()
+			itf = snmpObj.getIFData()
+			load = snmpObj.getLoadData()
+			proc = snmpObj.getProcNumb()
+			
+			interface = [[key, itf[key]['ifIn'], itf[key]['ifOut']]  \
+		                 for key in itf.keys() if key != 'lo']
+			
+# 			print cpu, memory, disk, itf,interface, load
+			
+			data = {'cpu':cpu, 'memory':memory,
+                 	'interface':interface, 'load':load,
+                  	'disk' : disk, 'proc':proc }
+			
+		except Exception, error:
+			logging.warn(error)
+			logging.warn('Fail to get data from' + str(HostIP))
+			data = {}
+			
+		data['server'] = HostIP
+# 		print data
+		return data
+
+
+
 if __name__ == '__main__':
 	host = '192.168.205.112'
 	obj = snmpOprt(host)

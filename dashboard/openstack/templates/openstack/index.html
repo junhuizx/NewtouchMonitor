@@ -27,9 +27,8 @@
         <section class="panel">
             <header class="panel-heading">
                 Openstack Agent
-                <span class="tools pull-right">
-                    <a href="javascript:;" class="fa fa-chevron-down"></a>
-                    <a href="javascript:;" class="fa fa-times"></a>
+                <span class="pull-right">
+                    <a role="button" href="{% url 'newtouch:openstack:openstack_agent_add' %}" class="pull-right btn btn-primary">Add</a>
                 </span>
             </header>
             <div class="panel-body">
@@ -41,17 +40,30 @@
                                 <th>Hostname</th>
                                 <th>Port</th>
                                 <td>Update Time</td>
+                                <td>Action</td>
                             </tr>
                         </thead>
                         <tbody>
+                        {% for platform in object_list%}
                             <tr class="gradeX">
-                                {% for platform in object_list%}
-                                    <td><a href="{% url 'newtouch:openstack:openstack_hypervisors' platform.id %}">{{ platform.name }}</a></td>
-                                    <td>{{ platform.hostname }}</td>
-                                    <td>{{ platform.port }}</td>
-                                    <td>{{ platform.update_time }}</td>
-                                {% endfor %}
+                                <td><a href="{% url 'newtouch:openstack:openstack_hypervisors' platform.id %}">{{ platform.name }}</a></td>
+                                <td>{{ platform.hostname }}</td>
+                                <td>{{ platform.port }}</td>
+                                <td>{{ platform.update_time }}</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a role="button" href="{% url 'newtouch:openstack:openstack_agent_edit'  platform.id %}" class="btn btn-info">Edit</a>
+                                        <button data-toggle="dropdown" class="btn btn-info dropdown-toggle" type="button">
+                                            <span class="caret"></span>
+                                            <span class="sr-only">Toggle Dropdown</span>
+                                        </button>
+                                        <ul aria-labelledby="btnGroupDrop1" role="menu" class="dropdown-menu">
+                                            <li><a href={% url 'newtouch:openstack:openstack_agent_delete' platform.id %}>Delete</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
                             </tr>
+                        {% endfor %}
                         </tbody>
                     </table>
                 </div>

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load syslog_tags %}
+
+{% block title %}
+    <title>Network</title>
+{% endblock %}
+
+{% block css %}
+{% endblock %}
+
+{% block page-heading %}
+    <h3>
+        Network <small>Subtext for header</small>
+    </h3>
+    <ul class="breadcrumb">
+        <li>
+            <a href="">Network</a>
+        </li>
+        <li class="active">Syslog </li>
+    </ul>
+{% endblock %}
+
+{% block page-body %}
+    <div class="row">
+        <div class="col-sm-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    Syslog
+                    <span class="tools pull-right">
+                        <a href="javascript:;" class="fa fa-chevron-down"></a>
+                        <a href="javascript:;" class="fa fa-times"></a>
+                    </span>
+                </header>
+                <div class="panel-body">
+                    <div class="adv-table">
+                        <table  class="display table table-bordered table-striped" id="dynamic-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Time</th>
+                                    <th>Priority</th>
+                                    <td>Message</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for syslog in syslogs %}
+                                <tr class="gradeX">
+                                        <td>{{ syslog.id }}</td>
+                                        <td>{{ syslog.received_time }}</td>
+                                        <td>{{ syslog.priority }}</td>
+                                        <td>{{ syslog.message | syslog_message | linebreaks }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

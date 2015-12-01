@@ -12,14 +12,7 @@ from django.core.urlresolvers import reverse_lazy, reverse
 from models import *
 from forms import ServerAddForm, ServerEditForm, CollertorAddForm
 from api.hostInfo import HostInfo
-from api.socketPOperation import SocketOpt
-
-
-# Agent Information
-AGENT_IP = '223.167.85.2'
-AGENT_PORT = 30024
-ADDR = (AGENT_IP, AGENT_PORT)
-BUFSIZ = 1024*1024
+from api.collector_api import ClientAPI
 
 # Create your views here.
 class IndexView(generic.TemplateView):
@@ -42,10 +35,7 @@ class MonitorView(generic.ListView):
         collertors = list(set([server.collector for server in context['servers']]))
         data = []
         for collertor in collertors:
-            hostnames = [ server.hostname for server in collertor.collector_server.all()]
-            hostnames = list(set(hostnames))
-            socket = SocketOpt()
-            data.extend(socket.getMonitorData(hostnames,collertor.hostname, collertor.port))
+            data.extend(ClientAPI.getHyperInfo(collertor.hostname, collertor.port))
 
         hosts = [HostInfo(info_dict) for info_dict in data]
 
@@ -95,6 +85,14 @@ class ServerEditView(generic.FormView):
     required_css_class = 'required'
     success_url = reverse_lazy('newtouch:server:server_manager')
     template_name = 'server/manager_edit.html'
+
+    def post(self, request, *args, **kwargs):
+        form = ServerEditForm(request.POST)
+        if form.is_valid():
+            form.save(form)
+        else:
+            return self.form_invalid(form=form)
+        return super(ServerEditView,self).post(request, *args, **kwargs)
 
     def get(self, request, *args, **kwargs):
         server = Server.objects.get(pk=kwargs.get('pk'))
