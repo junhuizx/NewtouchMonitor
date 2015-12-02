@@ -12,7 +12,7 @@
     </h3>
     <ul class="breadcrumb">
         <li>
-            <a href={% url "newtouch:hypervisors:hypervisors_collector" %}>Collertor</a>
+            <a href={% url "newtouch:server:server_collector" %}>Collertor</a>
         </li>
         <li class="active">
            Add Collertor
@@ -28,7 +28,7 @@
                 Add Collertor
             </header>
             <div class="panel-body">
-                <form role="form" action="{% url "newtouch:hypervisors:hypervisors_collector_add" %}" method="post">
+                <form role="form" action="{% url "newtouch:server:server_collector_add" %}" method="post">
                     {% csrf_token %}
                     {{ form.non_field_errors }}
                     <div class="form-group">

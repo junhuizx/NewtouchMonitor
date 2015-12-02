@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response, render
 from django.utils.encoding import force_text
 
+from django.http import Http404
 from django.views import generic
 from django.core.urlresolvers import reverse_lazy, reverse
 
@@ -32,10 +33,10 @@ class MonitorView(generic.ListView):
             idc = IDC.objects.get(name='ShangHai')
         context['servers'] = Server.objects.filter(location_id = idc.id)
 
-        collertors = list(set([server.collector for server in context['servers']]))
+        collectors = list(set([server.collector for server in context['servers']]))
         data = []
-        for collertor in collertors:
-            data.extend(ClientAPI.getHyperInfo(collertor.hostname, collertor.port))
+        for collector in collectors:
+            data.extend(ClientAPI.getHyperInfo(collector.hostname, collector.port))
 
         hosts = [HostInfo(info_dict) for info_dict in data]
 
@@ -69,9 +70,10 @@ class ServerAddView(generic.FormView):
     def post(self, request, *args, **kwargs):
         form = ServerAddForm(request.POST)
         if form.is_valid():
-            print form.cleaned_data
             try:
                 form.save(form)
+                collertor = form.cleaned_data['collector']
+                ClientAPI.setHostIPToCfg(collertor.hostname, collertor.port,form.cleaned_data['hostname'], add_to_config=True)
             except Exception,e:
                 print str(e)
                 return self.form_invalid(form=form)
@@ -111,9 +113,21 @@ class ServerEditView(generic.FormView):
 
         return super(ServerEditView,self).get(request,*args, **kwargs)
 
-# class HypervisorDeleteView(generic.DeleteView):
-#     success_url =  reverse_lazy('newtouch:hypervisors:hypervisors_manager')
-#     model = Hypervisors
+class ServerDeleteView(generic.DeleteView):
+    success_url =  reverse_lazy('newtouch:server:server_manager')
+    model = Server
+
+    def get_object(self, queryset=None):
+        """ Hook to ensure object is owned by request.user. """
+        obj = super(ServerDeleteView, self).get_object()
+        collector = obj.collector
+        print collector.hostname
+        print collector.port
+        print obj.hostname
+        ClientAPI.setHostIPToCfg(collector.hostname, collector.port, obj.hostname, add_to_config=False)
+        return obj
+
+
 
 class CollectorView(generic.ListView):
     model = Collector

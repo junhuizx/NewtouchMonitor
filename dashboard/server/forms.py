@@ -33,6 +33,7 @@ class ServerAddForm(forms.Form):
                                                         user = server.cleaned_data['user'])
             new_server.save()
 
+
 class ServerEditForm(forms.Form):
     id = forms.IntegerField(show_hidden_initial=False, widget=forms.TextInput(attrs={'class': 'form-control m-bot15','readonly':'readonly'}))
     hostname = forms.GenericIPAddressField(widget=forms.TextInput(attrs={'class': 'form-control m-bot15','readonly':'readonly'}),

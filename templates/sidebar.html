@@ -3,10 +3,10 @@
     <li class="menu-list {% if '/server/' in request.path %}active{% endif %}"><a href=""><i class="fa fa-laptop"></i> <span>Server</span></a>
         <ul class="sub-menu-list">
             <li class=" {% if '/server/overview/' in request.path %}active{% endif %}"><a href={% url "newtouch:server:server_overview" %}> Overview</a></li>
-            <li class=" {% if '/server/monitor/' in request.path %}active{% endif %}"><a href={% url "newtouch:server:server_monitor" %}> Monitor</a></li>
-            <li class=" {% if '/server/manager/' in request.path %}active{% endif %}"><a href={% url "newtouch:server:server_manager" %}> Manager</a></li>
-            <li class=" {% if '/server/rules/' in request.path %}active{% endif %}"><a href={% url "newtouch:server:server_rules" %}> Rules</a></li>
             <li class=" {% if '/server/collector/' in request.path %}active{% endif %}"><a href={% url "newtouch:server:server_collector" %}> Collectors</a></li>
+            <li class=" {% if '/server/manager/' in request.path %}active{% endif %}"><a href={% url "newtouch:server:server_manager" %}> Manager</a></li>
+            <li class=" {% if '/server/monitor/' in request.path %}active{% endif %}"><a href={% url "newtouch:server:server_monitor" %}> Monitor</a></li>
+            <li class=" {% if '/server/rules/' in request.path %}active{% endif %}"><a href={% url "newtouch:server:server_rules" %}> Rules</a></li>
         </ul>
     </li>
 

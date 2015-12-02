@@ -12,10 +12,7 @@ urlpatterns = [
     url(r'^manager/$', ManagerView.as_view() ,name='server_manager'),
     url(r'^manager/add/$', ServerAddView.as_view() ,name='server_manager_add'),
     url(r'^manager/(?P<pk>\d+)/edit/$', ServerEditView.as_view() ,name='server_manager_edit'),
-    url(r'^manager/(?P<pk>\d+)/delete/$',
-        DeleteView.as_view(model=Server,
-                           success_url=reverse_lazy('newtouch:server:server_manager')),
-        name='server_manager_delete'),
+    url(r'^manager/(?P<pk>\d+)/delete/$', ServerDeleteView.as_view(), name='server_manager_delete'),
 
     url(r'^collector/$', CollectorView.as_view() ,name='server_collector'),
     url(r'^collector/(?P<pk>\d+)/$', CollectorView.as_view() ,name='server_collector_detail'),

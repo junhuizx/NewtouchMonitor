@@ -18,8 +18,8 @@ class OpenStackServer(object):
         self.name = server['name']
         self.project_id = project_id
 
-    def fill_instance(self, token):
-        url = settings.REDIS_BASE_URL + "/v2/%s/guest/%s" % (self.project_id, self.uuid)
+    def fill_instance(self, base_url, token):
+        url = base_url + "/v2/%s/guest/%s" % (self.project_id, self.uuid)
         headers = {'X-Auth-Token': '%s' % (token)}
         re = requests.get(url, headers=headers, verify =False)
 
@@ -102,7 +102,7 @@ class OpenStackHypervisorDetailView(ListView):
         for instance in instances:
             project_id = client.get_project_id()['project_id']
             instance = OpenStackServer(instance, project_id)
-            instance.fill_instance(token)
+            instance.fill_instance(settings.REDIS_BASE_URL ,token)
             context['instances'].append(instance)
 
         return context
