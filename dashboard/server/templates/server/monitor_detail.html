@@ -1,4 +1,46 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 {% block title %}
-    <title>Serverr-detail</title>
+    <title>Hypervisors-Manager</title>
 {% endblock %}
+{% block page-heading %}
+    <h3>
+        Hypervisors 
+    </h3>
+    <ul class="breadcrumb">
+        <li>
+            <!-- <a href="#">table</a> -->
+        </li>
+{#        <li class="active"> My Dashboard </li>#}
+    </ul>
+{% endblock %}
+{% block page-body %}
+	<div>
+		<div class="row" style="float:left">
+			<h4> CPU Usage </h4>
+			<canvas id="cpuUsage" width="500" height="300"></canvas>
+	    </div>
+    	<div class="row" >
+            <h4> Memory Usage </h4>
+           <canvas id="memUsage" width="500" height="300"></canvas>
+    	</div>	
+	</div>
+	
+    <div class="row" style="float:left">
+    	<h4>CPU Load</h4>
+        <canvas id="cpuLoad" width="500" height="300"></canvas>
+    </div>
+    <div class="row">
+    	<h4> Process Number </h4>
+       <canvas id="procNumb" width="500" height="300"></canvas>
+    </div>
+{% endblock %}
+
+
+
+{% block boot-js %}
+<script src="{% static "js/chart-js/hyperchart.js" %}"></script> 
+{% endblock %}
+
+
+

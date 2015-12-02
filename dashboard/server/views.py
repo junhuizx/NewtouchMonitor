@@ -2,11 +2,11 @@
 
 import json
 from socket import socket, AF_INET, SOCK_STREAM
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, render
 from django.utils.encoding import force_text
+from django.conf import settings
 
-from django.http import Http404
 from django.views import generic
 from django.core.urlresolvers import reverse_lazy, reverse
 
@@ -14,6 +14,7 @@ from models import *
 from forms import ServerAddForm, ServerEditForm, CollertorAddForm
 from api.hostInfo import HostInfo
 from api.collector_api import ClientAPI
+from api.redisPOperation import RedisHashOprt
 
 # Create your views here.
 class IndexView(generic.TemplateView):
@@ -43,8 +44,36 @@ class MonitorView(generic.ListView):
         context['hosts'] = hosts
         return context
 
-class MonitorDetailView(generic.DetailView):
+class MonitorDetailView(generic.TemplateView):
     template_name = 'server/monitor_detail.html'
+    def get_context_data(self, **kwargs):
+        context = super(MonitorDetailView, self).get_context_data(**kwargs)
+        return context
+
+
+class ChartData(generic.View):
+    def get(self, request):
+        global CHART_HOST
+        try:
+            redis_obj = RedisHashOprt(settings.REDIS_HOSTNAME, settings.REDIS_PORT)
+        except:
+            return HttpResponse(json.dumps({}),
+                            content_type='application/json')
+
+        data = redis_obj.filterHashTimeKey(hash_name = CHART_HOST,chart_data=True)
+#         data = redis_obj.filterHashTimeKey(hash_name = CHART_HOST,
+#                                            start = '2015-11-30-15:13:03', end ='2015-11-30-17:33:06',
+#                                            chart_data=True)
+#         print data
+        return HttpResponse(json.dumps(data),
+                            content_type='application/json')
+
+class ChartHost(generic.View):
+    def get(self, request):
+        global CHART_HOST
+        CHART_HOST = request.GET.get('host_ip')
+        return HttpResponse(json.dumps({}),
+                            content_type='application/json')
 
 class ManagerView(generic.ListView):
     template_name = 'server/manager.html'

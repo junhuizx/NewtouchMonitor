@@ -112,3 +112,5 @@ MEDIA_ROOT  = os.path.join(BASE_DIR, 'media')
 UPLOAD_TO = 'upload'
 
 REDIS_BASE_URL = 'http://192.168.205.10:8774'
+REDIS_HOSTNAME = '172.16.17.101'
+REDIS_PORT = 6379

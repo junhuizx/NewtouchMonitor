@@ -6,7 +6,8 @@ urlpatterns = [
     url(r'^overview/$', IndexView.as_view() ,name='server_overview'),
 
     url(r'^monitor/$', MonitorView.as_view() ,name='server_monitor'),
-    url(r'^monitor/(?P<pk>\d+)/$', MonitorDetailView.as_view() ,name='server_detail'),
+#     url(r'^monitor/(?P<pk>\d+)/$', MonitorDetailView.as_view() ,name='server_detail'),
+    url(r'^monitor/detail/$', MonitorDetailView.as_view() ,name='server_detail'),
 
 
     url(r'^manager/$', ManagerView.as_view() ,name='server_manager'),
@@ -24,4 +25,7 @@ urlpatterns = [
         name='server_collector_delete'),
 
     url(r'^rules/$', IndexView.as_view() ,name='server_rules'),
+    url(r'^chart/$', ChartData.as_view() ,name='chart_data'),
+    url(r'^host/$', ChartHost.as_view() ,name='host_ip'),
+
 ]

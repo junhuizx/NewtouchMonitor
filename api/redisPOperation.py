@@ -49,42 +49,47 @@ class RedisHashOprt(object):
 			start_key, end_key = kwargs['start'], kwargs['end']
 		else:
 			'''now time as end time and the 3 hours time before as start time '''
-			delay = 2.5*3600
+			delay = 5*3600
 			local_time = time.time()
 			end_key = time.strftime(TimeFormat, time.localtime(local_time))
 			start_key = time.strftime(TimeFormat, time.localtime(local_time-delay))
 		
-		print start_key, end_key
 		for position in xrange(1, len(start_key)):
 			if start_key[position] != end_key[position]:
 				break
 		match_key = start_key[0:position] + '*'
+		
 		try: 
 			hash_data = self.residDB.hscan(hash_name, 0, match_key, 1000)[1]
 			keys = sorted(hash_data.keys())
-# 			print keys, '\n', len(keys)
-# 			print keys[]
-			host_all_info = [json.loads(hash_data[key]) for key in keys if \
-				  		key>=start_key and key<=end_key]
+			host_all_info=[]
+			host_all_keys = []
+			for key in keys:
+				if key>=start_key and key<=end_key:
+					host_all_info.append(json.loads(hash_data[key]))
+					host_all_keys.append(key)
+			
 			if not chart_data:
 				return host_all_info
 			else:
 				point_numb = 12
 				infos = host_all_info[-point_numb:]
 				info_dic = {'cpuUsage':[], 'cpuLoad':[],
-							'memUsage':[], 'procNumb':[]}
+							'memUsage':[], 'procNumb':[],
+							'start':host_all_keys[-point_numb][-8:-3],
+							'end':host_all_keys[-1][-8:-3],
+							'host':hash_name}
 				for info in infos:
-					info_dic['cpuUsage'].append(info['cpu']['cpuUsage'])
-					info_dic['cpuLoad'].append(info['cpu']['load'])
-					info_dic['memUsage'].append(info['memory']['memUsage'])
-					info_dic['procNumb'].append(info['proc']['procNumb'])
-				
+					info_dic['cpuUsage'].append(float(info['cpu']['cpuUsage'][:-1]))
+					info_dic['cpuLoad'].append(float(info['cpu']['load']))
+					info_dic['memUsage'].append(float(
+										 info['memory']['memUsage'][:-1]))
+					info_dic['procNumb'].append(int(info['proc']['procNumb']))
 				return info_dic
 				
-				
-		except Exception, error:
+		except Exception:
 			logging.warning('Fail to filter data form redis!')
-			raise error
+			return {}
 
 
 	def delHashKey(self, hash_name, key):
@@ -113,28 +118,12 @@ if __name__ == '__main__':
 	# print t
 	# print jdata
 	# obj.setHash('local2', {t:jdata})
-# 	a = obj.getHash('local2')
-# 	b = a['2015-11-09-16:17:22']
-# 	print b
-# 	print type(b)
-# 	c = json.loads(json.dumps(b))
-# 	print c 
-# 	print data['cpu']['usage']
-	# obj.setHash('local2', {t:'monitor'+str(i)})
 
-	# print t
-	# for i in xrange(800):
-	# 	t = time.strftime(TimeFormat, time.localtime())
-	# 	obj.setHash('local2', {t:'monitor'+str(i)})
-	# 	time.sleep(1)
-	# print obj.getHash('local2')
-	# print time.time()
-# 	hosts_reids_info = obj.filterHashTimeKey('127.0.0.1',
-# 								start = '2015-11-30-15:13:03', end ='2015-11-30-16:13:06')
-	hosts_reids_info = obj.filterHashTimeKey('127.0.0.1')
+	hosts_reids_info = obj.filterHashTimeKey('127.0.0.1',
+					   start = '2015-11-30-15:13:03', end ='2015-11-30-17:33:06',chart_data= True)
+# 	hosts_reids_info = obj.filterHashTimeKey('127.0.0.1')
 	print hosts_reids_info
 	print len(hosts_reids_info)
-
 	# print obj.getHash('local2')
 	# print obj.delHashKey('local2', 'user1')
 	# print obj.getHash('local2', ['user1','user2'])
