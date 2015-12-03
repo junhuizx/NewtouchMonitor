@@ -26,6 +26,48 @@
     <div class="col-sm-12">
         <section class="panel">
             <header class="panel-heading">
+                Openstack Nova Services
+                <span class="tools pull-right">
+                    <a href="javascript:;" class="fa fa-chevron-down"></a>
+                    <a href="javascript:;" class="fa fa-times"></a>
+                </span>
+            </header>
+            <div class="panel-body">
+                <div class="adv-table">
+                    <table  class="display table table-bordered table-striped" id="dynamic-table">
+                        <thead>
+                            <tr>
+                                <th>Host</th>
+                                <th>Service</th>
+                                <th>Zone</th>
+                                <th>Status</th>
+                                <th>State</th>
+                                <th>Reason</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for service in services%}
+                                <tr class="gradeX">
+                                    <td>{{ service.host }}</td>
+                                    <td>{{ service.service }}</td>
+                                    <td>{{ service.zone }}</td>
+                                    <td>{{ service.status }}</td>
+                                    <td>{{ service.state }}</td>
+                                    <td>{{ service.reason }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <section class="panel">
+            <header class="panel-heading">
                 Openstack Hypervisors
                 <span class="tools pull-right">
                     <a href="javascript:;" class="fa fa-chevron-down"></a>

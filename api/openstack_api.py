@@ -31,4 +31,10 @@ class OpenStackAgentClient(object):
 
         return json.loads(re.text)
 
+    def nova_service_list(self):
+        url = self.base_url + '/nova-services'
+        re = requests.get(url, headers=self.headers)
+
+        return json.loads(re.text)
+
 

@@ -1,4 +1,129 @@
 {% extends 'base.html' %}
+
+{% block css %}
+{% endblock %}
+
 {% block title %}
     <title>Overview</title>
 {% endblock %}
+
+{% block page-heading %}
+    <h3>
+        Overview <small>Subtext for header</small>
+    </h3>
+    <ul class="breadcrumb">
+        <li class="active">Overview </li>
+    </ul>
+{% endblock %}
+
+{% block page-body %}
+    <div class="row">
+        <div class="col-md-12">
+            <!--statistics start-->
+            <div class="row state-overview">
+                <div class="col-md-3">
+                    <div class="panel purple">
+                        <div class="symbol">
+                            <a style="color:white;" href="{% url 'newtouch:server:server_overview' %}"><i class="fa fa-laptop"></i></a>
+                        </div>
+                        <div class="state-value">
+                            <div class="value">
+                                <a style="color:white;" href="{% url 'newtouch:server:server_overview' %}">{{ server_num }}</a>
+                            </div>
+                            <div class="title">
+                                <a style="color:white;" href="{% url 'newtouch:server:server_overview' %}">Server</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="panel red">
+                        <div class="symbol">
+                            <a style="color:white;" href="{% url 'newtouch:openstack:openstack_index' %}"><i class="fa fa-cloud"></i></a>
+                        </div>
+                        <div class="state-value">
+                            <div class="value">
+                                <a style="color:white;" href="{% url 'newtouch:openstack:openstack_index' %}">{{ openstack_num }}</a>
+                            </div>
+                            <div class="title">
+                                <a style="color:white;" href="{% url 'newtouch:openstack:openstack_index' %}">OpenStack</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="panel blue">
+                        <div class="symbol">
+                            <a style="color:white;" href="{% url 'newtouch:network:network_index' %}"><i class="fa fa-sitemap"></i></a>
+                        </div>
+                        <div class="state-value">
+                            <div class="value">
+                                <a style="color:white;" href="{% url 'newtouch:network:network_index' %}">{{ network_num }}</a>
+                            </div>
+                            <div class="title">
+                                <a style="color:white;" href="{% url 'newtouch:network:network_index' %}">Network</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="panel green">
+                        <div class="symbol">
+                            <a style="color:white;" href="{% url 'newtouch:overview:index' %}"><i class="fa fa-qrcode"></i></a>
+                        </div>
+                        <div class="state-value">
+                            <div class="value">
+                                <a style="color:white;" href="{% url 'newtouch:overview:index' %}">{{ service_num }}</a>
+                            </div>
+                            <div class="title">
+                                <a style="color:white;" href="{% url 'newtouch:overview:index' %}">Service</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--statistics end-->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    Event Last 10
+                    <span class="tools pull-right">
+                        <a href="javascript:;" class="fa fa-chevron-down"></a>
+                        <a href="javascript:;" class="fa fa-times"></a>
+                    </span>
+                </header>
+                <div class="panel-body">
+                    <div class="adv-table">
+                        <table  class="display table table-bordered table-striped" id="dynamic-table">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Type</th>
+                                    <td>Rule</td>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+{#                            {% for syslog_mysql in object_list%}#}
+                                <tr class="gradeX">
+                                    <td>ssss</td>
+                                    <td>sss</td>
+                                    <td>ssss</td>
+                                    <td>ssss</td>
+                                </tr>
+{#                            {% endfor %}#}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+{% endblock %}
+

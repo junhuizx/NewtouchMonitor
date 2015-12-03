@@ -12,6 +12,19 @@ from models import OpenStackAgent
 from forms import OpenStackAgentAddForm,OpenStackAgentEditForm
 from django.conf import settings
 
+
+class OpenStackNovaService(object):
+    def __init__(self, service):
+        self.host = service['host']
+        self.service = service['binary']
+        self.zone = service['zone']
+        self.status = service['status']
+        self.state = service['state']
+        self.reason = service['disabled_reason']
+
+    def __unicode__(self):
+        return self.host
+
 class OpenStackServer(object):
     def __init__(self, server, project_id):
         self.uuid = server['uuid']
@@ -74,14 +87,20 @@ class OpenStackHypervisorsView(ListView):
     def get_context_data(self, **kwargs):
         context = super(OpenStackHypervisorsView, self).get_context_data(**kwargs)
         context['hypervisors'] = []
+        context['services'] = []
 
         context['agent_pk'] = self.kwargs['pk']
         agent = OpenStackAgent.objects.get(pk = self.kwargs['pk'])
         client = OpenStackAgentClient(agent.hostname, agent.port)
         hypervisors = client.hypervisor_list()
+        services = client.nova_service_list()
         hypervisors_hostname = hypervisors.keys()
+        services_host = services.keys()
         for hypervisor in hypervisors_hostname:
             context['hypervisors'].append(OpenStackHypervisor( hypervisors[hypervisor] ))
+
+        for service in services_host:
+            context['services'].append(OpenStackNovaService(services[service]))
 
         return context
 

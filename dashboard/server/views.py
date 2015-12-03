@@ -54,17 +54,18 @@ class MonitorDetailView(generic.TemplateView):
 class ChartData(generic.View):
     def get(self, request):
         global CHART_HOST
+        print CHART_HOST
         try:
             redis_obj = RedisHashOprt(settings.REDIS_HOSTNAME, settings.REDIS_PORT)
         except:
             return HttpResponse(json.dumps({}),
                             content_type='application/json')
 
-        data = redis_obj.filterHashTimeKey(hash_name = CHART_HOST,chart_data=True)
+        data = redis_obj.filterHashTimeKey(hash_name = CHART_HOST, chart_data=True)
 #         data = redis_obj.filterHashTimeKey(hash_name = CHART_HOST,
 #                                            start = '2015-11-30-15:13:03', end ='2015-11-30-17:33:06',
 #                                            chart_data=True)
-#         print data
+        print data
         return HttpResponse(json.dumps(data),
                             content_type='application/json')
 

@@ -52,7 +52,7 @@
                                 <tbody role="alert" aria-live="polite" aria-relevant="all">
                                     {% for host in hosts %}
                                         <tr class="gradeX odd">
-                                        <td>{{ host.server }}</td>
+                                        <td><a class="host_ip">{{ host.server }}</a></td>
                                         {% if host.error %}
                                             <td> - </td>
                                             <td> - </td>

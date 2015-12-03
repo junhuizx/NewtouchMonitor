@@ -19,6 +19,17 @@
     </li>
     <li class="{% if '/network/' in request.path %}active{% endif %}"><a href="{% url 'newtouch:network:network_index' %}"><i class="fa fa-sitemap"></i> <span>Network</span></a>
     </li>
+    <li class="menu-list">
+        <a href="">
+            <i class="fa fa-qrcode"></i><span>Service</span>
+        </a>
+        <ul class="sub-menu-list">
+            <li class=""><a href=""> Apache</a></li>
+            <li class=""><a href=""> MySQL</a></li>
+            <li class=""><a href=""> Redis</a></li>
+            <li class=""><a href=""> Custom</a></li>
+        </ul>
+    </li>
     <li>
         <a href="">
             <i class="fa fa-ban"></i><span>Rules</span>

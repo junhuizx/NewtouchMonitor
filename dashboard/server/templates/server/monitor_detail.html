@@ -15,24 +15,57 @@
     </ul>
 {% endblock %}
 {% block page-body %}
-	<div>
-		<div class="row" style="float:left">
-			<h4> CPU Usage </h4>
-			<canvas id="cpuUsage" width="500" height="300"></canvas>
-	    </div>
-    	<div class="row" >
-            <h4> Memory Usage </h4>
-           <canvas id="memUsage" width="500" height="300"></canvas>
-    	</div>	
-	</div>
-	
-    <div class="row" style="float:left">
-    	<h4>CPU Load</h4>
-        <canvas id="cpuLoad" width="500" height="300"></canvas>
+    <div class="row">
+        <div class="col-md-6">
+            <section class="panel">
+                <header class="panel-heading">
+                    CPU Usage
+                </header>
+                <div class="panel-body">
+                    <div class="chartJS">
+                        <canvas id="cpuUsage" width="500" height="300"></canvas>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="col-md-6">
+            <section class="panel">
+                <header class="panel-heading">
+                     Memory Usage
+                </header>
+                <div class="panel-body">
+                    <div class="chartJS">
+                        <canvas id="memUsage" width="500" height="300"></canvas>
+                    </div>
+                </div>
+            </section>
+        </div>
     </div>
     <div class="row">
-    	<h4> Process Number </h4>
-       <canvas id="procNumb" width="500" height="300"></canvas>
+        <div class="col-md-6">
+            <section class="panel">
+                <header class="panel-heading">
+                    CPU Load
+                </header>
+                <div class="panel-body">
+                    <div class="chartJS">
+                        <canvas id="cpuLoad" width="500" height="300"></canvas>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="col-md-6">
+            <section class="panel">
+                <header class="panel-heading">
+                     Process Number
+                </header>
+                <div class="panel-body">
+                    <div class="chartJS">
+                        <canvas id="procNumb" width="500" height="300"></canvas>
+                    </div>
+                </div>
+            </section>
+        </div>
     </div>
 {% endblock %}
 
