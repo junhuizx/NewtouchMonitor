@@ -58,6 +58,15 @@
                             </div>
                         {% endfor %}
                     </div>
+                    <div class="form-group">
+                        <label for="exampleInputFile">{{ form.guest_agent_base_url.label }}</label>
+                        {{ form.guest_agent_base_url }}
+                        {% for error in form.guest_agent_base_url.errors %}
+                            <div class="has-error">
+                                <p class="help-block">{{ error }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>

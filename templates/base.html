@@ -47,15 +47,26 @@
 
         <!--logo and iconic logo start-->
         <div class="logo">
-            <a href="index.html"><img src="{% static "images/logo.png" %}" alt=""></a>
+{#            <a href="{% url 'newtouch:overview:index' %}"><img src="{% static "images/logo.png" %}" alt=""></a>#}
+            <a href="#"><img src="{% static "images/logo.png" %}" alt=""></a>
         </div>
 
         <div class="logo-icon text-center">
-            <a href="index.html"><img src="{% static "images/logo_icon.png" %}" alt=""></a>
+{#            <a href="{% url 'newtouch:overview:index' %}"><img src="{% static "images/logo_icon.png" %}" alt=""></a>#}
+            <a href="#"><img src="{% static "images/logo_icon.png" %}" alt=""></a>
         </div>
         <!--logo and iconic logo end-->
 
         <div class="left-side-inner">
+            <div class="visible-xs hidden-sm hidden-md hidden-lg">
+                <div class="media logged-user">
+                    <img alt="" src="{% static 'images/photos/user-avatar.png' %}" class="media-object">
+                    <div class="media-body">
+                        <h4><a href="#">John Doe</a></h4>
+                        <span>"Hello There..."</span>
+                    </div>
+                </div>
+            </div>
             <!--sidebar nav start-->
             {% include 'sidebar.html' %}
             <!--sidebar nav end-->
@@ -73,45 +84,6 @@
             <!--toggle button start-->
             <a class="toggle-btn"><i class="fa fa-bars"></i></a>
             <!--toggle button end-->
-
-{#            <!--notification menu start -->#}
-{#            <div class="menu-right">#}
-{#                <ul class="notification-menu">#}
-{#                    <li>#}
-{#                        <a href="#" class="btn btn-default dropdown-toggle info-number" data-toggle="dropdown">#}
-{#                            <i class="fa fa-bell-o"></i>#}
-{#                            <span class="badge">1</span>#}
-{#                        </a>#}
-{#                        <div class="dropdown-menu dropdown-menu-head pull-right">#}
-{#                            <h5 class="title">Notifications</h5>#}
-{#                            <ul class="dropdown-list normal-list">#}
-{#                                <li class="new">#}
-{#                                    <a href="">#}
-{#                                        <span class="label label-danger"><i class="fa fa-bolt"></i></span>#}
-{#                                        <span class="name">Server #31 overloaded.  </span>#}
-{#                                        <em class="small">4 hrs</em>#}
-{#                                    </a>#}
-{#                                </li>#}
-{#                                <li class="new"><a href="">See All Notifications</a></li>#}
-{#                            </ul>#}
-{#                        </div>#}
-{#                    </li>#}
-{#                    <li>#}
-{#                        <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">#}
-{#                            <img src="{% static "images/photos/user-avatar.png" %}" alt="" />#}
-{#                            John Doe#}
-{#                            <span class="caret"></span>#}
-{#                        </a>#}
-{#                        <ul class="dropdown-menu dropdown-menu-usermenu pull-right">#}
-{#                            <li><a href="#"><i class="fa fa-user"></i>  Profile</a></li>#}
-{#                            <li><a href="#"><i class="fa fa-cog"></i>  Settings</a></li>#}
-{#                            <li><a href="#"><i class="fa fa-sign-out"></i> Log Out</a></li>#}
-{#                        </ul>#}
-{#                    </li>#}
-{##}
-{#                </ul>#}
-{#            </div>#}
-{#            <!--notification menu end -->#}
 
         </div>
         <!-- header section end-->
@@ -161,28 +133,6 @@
 <!-- form-validation -->
 <script type="text/javascript" src="{% static "js/jquery.validate.min.js"%}"></script>
 <script src="{% static "js/validation-init.js" %}"></script>
-
-{#<!--easy pie chart-->#}
-{#<script src="{% static "js/easypiechart/jquery.easypiechart.js" %}"></script>#}
-{#<script src="{% static "js/easypiechart/easypiechart-init.js" %}"></script>#}
-{##}
-{#<!--Sparkline Chart-->#}
-{#<script src="{% static "js/sparkline/jquery.sparkline.js" %}"></script>#}
-{#<script src="{% static "js/sparkline/sparkline-init.js" %}"></script>#}
-
-{#<!--icheck -->#}
-{#<script src="{% static "js/iCheck/jquery.icheck.js" %}"></script>#}
-{#<script src="{% static "js/icheck-init.js" %}"></script>#}
-{##}
-{#<!-- jQuery Flot Chart-->#}
-{#<script src="{% static "js/flot-chart/jquery.flot.js" %}"></script>#}
-{#<script src="{% static "js/flot-chart/jquery.flot.tooltip.js" %}"></script>#}
-{#<script src="{% static "js/flot-chart/jquery.flot.resize.js" %}"></script>#}
-{##}
-{##}
-{#<!--Morris Chart-->#}
-{#<script src="{% static "js/morris-chart/morris.js" %}"></script>#}
-{#<script src="{% static "js/morris-chart/raphael-min.js" %}"></script>#}
 
 <!--common scripts for all pages-->
 <script src="{% static "js/scripts.js" %}"></script>

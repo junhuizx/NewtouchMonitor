@@ -228,6 +228,7 @@ hr {
 .left-side-inner {
     padding: 0px;
     margin-bottom: 50px;
+    /*margin-top: 50px;*/
 }
 
 .left-side .searchform {

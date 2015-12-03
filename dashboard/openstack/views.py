@@ -32,7 +32,7 @@ class OpenStackServer(object):
         self.project_id = project_id
 
     def fill_instance(self, base_url, token):
-        url = base_url + "/v2/%s/guest/%s" % (self.project_id, self.uuid)
+        url = 'http://%s:8774' % (base_url) + "/v2/%s/guest/%s" % (self.project_id, self.uuid)
         headers = {'X-Auth-Token': '%s' % (token)}
         re = requests.get(url, headers=headers, verify =False)
 
@@ -120,9 +120,11 @@ class OpenStackHypervisorDetailView(ListView):
         token = client.get_token()['token']
         for instance in instances:
             project_id = client.get_project_id()['project_id']
+
             instance = OpenStackServer(instance, project_id)
-            instance.fill_instance(settings.REDIS_BASE_URL ,token)
+            instance.fill_instance(agent.guest_agent_base_url ,token)
             context['instances'].append(instance)
+
 
         return context
 
@@ -165,7 +167,8 @@ class OpenStackAgentEditView(FormView):
             'id': kwargs.get('pk'),
             'name' : agent.name,
             'hostname': agent.hostname,
-            'port': agent.port
+            'port': agent.port,
+            'guest_agent_base_url': agent.guest_agent_base_url
         }
 
         return super(OpenStackAgentEditView, self).get(request,*args, **kwargs)

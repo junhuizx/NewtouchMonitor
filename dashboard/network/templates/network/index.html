@@ -52,7 +52,7 @@
                                     <td>{{ syslog_mysql.mysql_db_username }}</td>
                                     <td>{{ syslog_mysql.mysql_db_password }}</td>
                                     <td>{{ syslog_mysql.syslog_tag }}</td>
-                                    <td>{{ syslog_mysql.update_time }}</td>
+                                    <td>{{ syslog_mysql.update_time | date:'Y-m-d H:i:s' }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>

@@ -47,7 +47,7 @@
                             {% for syslog in syslogs %}
                                 <tr class="gradeX">
                                         <td>{{ syslog.id }}</td>
-                                        <td>{{ syslog.received_time }}</td>
+                                        <td>{{ syslog.received_time | date:'Y-m-d H:i:s' }}</td>
                                         <td>{{ syslog.priority }}</td>
                                         <td>{{ syslog.message | syslog_message | linebreaks }}</td>
                                 </tr>

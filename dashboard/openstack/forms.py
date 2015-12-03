@@ -9,6 +9,9 @@ class OpenStackAgentAddForm(forms.Form):
     port = forms.IntegerField(initial=40888,
                               widget=forms.TextInput(attrs={'class': 'form-control m-bot15'}))
 
+    guest_agent_base_url = forms.GenericIPAddressField(initial='58.247.8.188',
+                                           widget=forms.TextInput(attrs={'class': 'form-control m-bot15'}))
+
     def save(self, agent):
         new_agent = OpenStackAgent.objects.create(name=agent.cleaned_data['name'],
                                                   hostname = agent.cleaned_data['hostname'],
@@ -21,6 +24,7 @@ class OpenStackAgentEditForm(forms.Form):
                            widget=forms.TextInput(attrs={'class': 'form-control m-bot15', 'readonly':'readonly'}))
     hostname = forms.GenericIPAddressField(widget=forms.TextInput(attrs={'class': 'form-control m-bot15'}))
     port = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control m-bot15'}))
+    guest_agent_base_url = forms.GenericIPAddressField(widget=forms.TextInput(attrs={'class': 'form-control m-bot15'}))
 
     def save(self, agent):
         data = agent.cleaned_data

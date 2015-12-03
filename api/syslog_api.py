@@ -16,7 +16,7 @@ def get_syslog_message(mysql_host, mysql_db_name, mysql_db_user, mysql_db_passwo
                                mysql_db_name)
     cursor = syslogdb.cursor()
 
-    sql = "SELECT * FROM SystemEvents WHERE SysLogTag = %s%s%s ORDER BY id DESC" % ('"', syslog_tag, '"')
+    sql = "SELECT * FROM SystemEvents WHERE SysLogTag = %s%s%s ORDER BY id DESC limit 1000" % ('"', syslog_tag, '"')
     row = cursor.execute(sql)
 
     results = cursor.fetchmany(row)
