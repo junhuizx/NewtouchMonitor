@@ -5,12 +5,20 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse_lazy
 from django.forms.utils import ErrorList
 
-from django.views.generic import ListView, DetailView, FormView
+from django.views.generic import ListView, DetailView, FormView, View, TemplateView
 import requests
 from api.openstack_api import OpenStackAgentClient
 from models import OpenStackAgent
 from forms import OpenStackAgentAddForm,OpenStackAgentEditForm
 from django.conf import settings
+from django.http import HttpResponse
+from api.redisPOperation import RedisHashOprt
+from api.hostInfo import HostNetInfo
+
+
+
+UUID = None
+OPS_AGENT = None
 
 
 class OpenStackNovaService(object):
@@ -37,6 +45,7 @@ class OpenStackServer(object):
         re = requests.get(url, headers=headers, verify =False)
 
         return_data = json.loads(re.text)
+        
         if return_data['return']:
             self.return_data = True
             data_dict =  eval(return_data['return'])
@@ -45,6 +54,7 @@ class OpenStackServer(object):
             self.diskstat = data_dict['diskstat']
             self.processstat = data_dict['processstat']
             self.login = data_dict['login']
+            
         else:
             self.return_data = False
 
@@ -53,10 +63,12 @@ class OpenStackServer(object):
 
 class OpenStackHypervisor(object):
     def __init__(self , hypervisor):
+        self.network_status = None
         self.status = hypervisor['status']
         self.hypervisor_hostname = hypervisor['hypervisor_hostname']
         self.hypervisor_type = hypervisor['hypervisor_type']
         self.host_ip = hypervisor['host_ip']
+	self.network_status = hypervisor['network_status']
         self.vcpus = hypervisor['vcpus']
         self.vcpus_used =hypervisor['vcpus_used']
         self.memory_mb_used = int(hypervisor['memory_mb_used'])
@@ -87,6 +99,7 @@ class OpenStackHypervisorsView(ListView):
     def get_context_data(self, **kwargs):
         context = super(OpenStackHypervisorsView, self).get_context_data(**kwargs)
         context['hypervisors'] = []
+        hypervisors_tmp = []
         context['services'] = []
 
         context['agent_pk'] = self.kwargs['pk']
@@ -97,8 +110,9 @@ class OpenStackHypervisorsView(ListView):
         hypervisors_hostname = hypervisors.keys()
         services_host = services.keys()
         for hypervisor in hypervisors_hostname:
-            context['hypervisors'].append(OpenStackHypervisor( hypervisors[hypervisor] ))
+            hypervisors_tmp.append(OpenStackHypervisor( hypervisors[hypervisor] ))
 
+        context['hypervisors'] = hypervisors_tmp
         for service in services_host:
             context['services'].append(OpenStackNovaService(services[service]))
 
@@ -111,7 +125,7 @@ class OpenStackHypervisorDetailView(ListView):
     def get_context_data(self, **kwargs):
         context = super(OpenStackHypervisorDetailView, self).get_context_data(**kwargs)
         context['instances'] = []
-
+        context['ops_agent'] = self.kwargs['pk']
         hypervisor_hostname = self.kwargs['hypervisor_hostname']
         agent = OpenStackAgent.objects.get(pk = self.kwargs['pk'])
         client = OpenStackAgentClient(agent.hostname, agent.port)
@@ -124,7 +138,6 @@ class OpenStackHypervisorDetailView(ListView):
             instance = OpenStackServer(instance, project_id)
             instance.fill_instance(agent.guest_agent_base_url ,token)
             context['instances'].append(instance)
-
 
         return context
 
@@ -172,3 +185,55 @@ class OpenStackAgentEditView(FormView):
         }
 
         return super(OpenStackAgentEditView, self).get(request,*args, **kwargs)
+
+class OpenStackNetStatus(ListView):
+    template_name = 'openstack/net.html'
+    queryset = []
+    
+    def get_context_data(self, **kwargs):
+        context = super(OpenStackNetStatus, self).get_context_data(**kwargs)
+        agent= OpenStackAgent.objects.get(id=self.kwargs['pk'])
+        client = OpenStackAgentClient(agent.hostname, agent.port)        
+        context['instances'] = []
+        net_dics = client.net_list()['object']
+        net_infos = [HostNetInfo(info_dic) for info_dic in net_dics]
+        context['instances'].extend(net_infos)
+        return context
+
+    
+class InstanceUUID(View):
+    def get(self, request):
+        global UUID
+        global OPS_AGENT
+        UUID = request.GET.get('uuid')
+        OPS_AGENT = request.GET.get('ops_agent')
+
+        return HttpResponse(json.dumps({}),
+                            content_type='application/json')
+
+class ChartData(View):
+    def get(self, request):
+        global UUID
+        global OPS_AGENT
+        agent = OpenStackAgent.objects.get(pk=int(OPS_AGENT))
+        redis_ip = agent.guest_agent_base_url
+        redis_port = 6379
+        hash_name = 'hash_data'
+        list_name = 'list:'+str(UUID)
+        
+        try:
+            redis_obj = RedisHashOprt(redis_ip, redis_port)
+            keys_list = redis_obj.getListValue(list_name)
+            data = redis_obj.getInstanceData(hash_name, keys_list)
+            return HttpResponse(json.dumps(data),
+                            content_type='application/json')
+        except:
+            return HttpResponse(json.dumps({}),
+                            content_type='application/json')
+
+
+class InstanceDetailView(TemplateView):
+    template_name = 'openstack/instance_detail.html'
+    def get_context_data(self, **kwargs):
+        context = super(InstanceDetailView, self).get_context_data(**kwargs)
+        return context

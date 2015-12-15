@@ -16,6 +16,8 @@ from api.hostInfo import HostInfo
 from api.collector_api import ClientAPI
 from api.redisPOperation import RedisHashOprt
 
+CHART_HOST = None
+HOST_AGETN_IP = None
 # Create your views here.
 class IndexView(generic.TemplateView):
     template_name = 'server/index.html'
@@ -38,7 +40,7 @@ class MonitorView(generic.ListView):
         data = []
         for collector in collectors:
             data.extend(ClientAPI.getHyperInfo(collector.hostname, collector.port))
-
+#         print data
         hosts = [HostInfo(info_dict) for info_dict in data]
 
         context['hosts'] = hosts
@@ -53,26 +55,32 @@ class MonitorDetailView(generic.TemplateView):
 
 class ChartData(generic.View):
     def get(self, request):
-        global CHART_HOST
-        print CHART_HOST
+        global CHART_HOST, HOST_AGETN_IP
+        list_name = 'list-a:'+str(HOST_AGETN_IP)+'-h:'+str(CHART_HOST)
+        hash_name = 'hash-a:'+str(HOST_AGETN_IP)+'-h:'+str(CHART_HOST)
+        print list_name, hash_name
         try:
-            redis_obj = RedisHashOprt(settings.REDIS_HOSTNAME, settings.REDIS_PORT)
+            redis_obj = RedisHashOprt(settings.REDIS_HOSTNAME, settings.REDIS_PORT, db_numb=1)
+            keys = redis_obj.getListValue(list_name, list_len=11, instance=False)
+            data = redis_obj.filterHashTimeKey(hash_name, keys)
+            return HttpResponse(json.dumps(data),
+                            content_type='application/json')
         except:
             return HttpResponse(json.dumps({}),
                             content_type='application/json')
-
-        data = redis_obj.filterHashTimeKey(hash_name = CHART_HOST, chart_data=True)
+ 
+#         data = redis_obj.filterHashTimeKey(hash_name = CHART_HOST, chart_data=True)
 #         data = redis_obj.filterHashTimeKey(hash_name = CHART_HOST,
 #                                            start = '2015-11-30-15:13:03', end ='2015-11-30-17:33:06',
 #                                            chart_data=True)
-        print data
-        return HttpResponse(json.dumps(data),
-                            content_type='application/json')
+#         return HttpResponse(json.dumps(data),
+#                             content_type='application/json')
 
 class ChartHost(generic.View):
     def get(self, request):
-        global CHART_HOST
+        global CHART_HOST, HOST_AGETN_IP
         CHART_HOST = request.GET.get('host_ip')
+        HOST_AGETN_IP = request.GET.get('agent_ip')
         return HttpResponse(json.dumps({}),
                             content_type='application/json')
 

@@ -23,6 +23,8 @@
             <div class="panel-body">
 {#                <input type="button" data-toggle="modal" data-target="#HypervisorsModal" value="Add" class="btn btn-success ">#}
                 <a role="button" href="{% url 'newtouch:server:server_manager_add' %}" class="pull-right btn btn-primary">Add</a>
+                <!-- <a role="button" href="#" class="pull-right btn btn-primary">Add</a> -->
+
             </div>
         </div>
     </div>
@@ -34,13 +36,13 @@
                         {% if tag %}
                             {% for idc in idcs %}
                             <li class="{% if idc.name == tag %}active{% endif %}">
-                                <a href="?tag={{ idc.name }}" >{{ idc.name }}</a>
+                                <a href="?tag={{ idc.name }}" idc = {{ idc.id }}>{{ idc.name }}</a>
                             </li>
                             {% endfor %}
                         {% else %}
                             {% for idc in idcs %}
                             <li class="{% if idc.name == 'ShangHai' %}active{% endif %}">
-                                <a href="?tag={{ idc.name }}" >{{ idc.name }}</a>
+                                <a href="?tag={{ idc.name }}" idc = {{ idc.id }}>{{ idc.name }}</a>
                             </li>
                             {% endfor %}
                         {% endif %}

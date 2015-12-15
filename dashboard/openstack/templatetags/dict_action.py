@@ -95,3 +95,10 @@ def network_total_list(list):
 
     return network_total
 
+@register.filter
+def exclude_by_name(list, name):
+    if not list:
+        return []
+    return [obj for obj in list if name not in obj.get('devname', '')]
+
+ 

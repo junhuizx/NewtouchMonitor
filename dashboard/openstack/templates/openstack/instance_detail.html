@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}
+    <title>Instance-Manager</title>
+{% endblock %}
+{% block page-heading %}
+    <h3>
+        Instance 
+    </h3>
+    <ul class="breadcrumb">
+        <li>
+            <!-- <a href="#">table</a> -->
+        </li>
+{#        <li class="active"> My Dashboard </li>#}
+    </ul>
+{% endblock %}
+{% block page-body %}
+    <div class="row">
+        <div class="col-md-6">
+            <section class="panel">
+                <header class="panel-heading">
+                    Memory Usage
+                </header>
+                <div class="panel-body">
+                    <div class="chart chartJS">
+                        <canvas id="memUsage" width="480" height="300"></canvas>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="col-md-6">
+            <section class="panel">
+                <header class="panel-heading">
+                    Transfer Per Second
+                </header>
+                <div class="panel-body">
+                    <div class="chart chartJS">
+                        <canvas id="tps" width="480" height="300"></canvas>
+                    </div>
+                </div>
+            </section>
+        </div>
+	</div>
+    <div class="row">
+        <div class="col-md-6">
+            <section class="panel">
+                <header class="panel-heading">
+                    Disk Read
+                </header>
+                <div class="panel-body">
+                    <div class="chart chartJS">
+                        <canvas id="kb_read" width="480" height="300"></canvas>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="col-md-6">
+            <section class="panel">
+                <header class="panel-heading">
+                    Disk Write
+                </header>
+                <div class="panel-body">
+                    <div class="chart chartJS">
+                        <canvas id="kb_write" width="480" height="300"></canvas>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <section class="panel">
+                <header class="panel-heading">
+                    Disk Read Speed
+                </header>
+                <div class="panel-body">
+                    <div class="chart chartJS">
+                        <canvas id="speed_kb_read" width="480" height="300"></canvas>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="col-md-6">
+            <section class="panel">
+                <header class="panel-heading">
+                    Disk Write Speed
+                </header>
+                <div class="panel-body">
+                    <div class="chart chartJS">
+                        <canvas id="speed_kb_write" width="480" height="300"></canvas>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+{% block boot-js %}
+<script src="{% static "js/chart-js/openstackchart.js" %}"></script> 
+{% endblock %}
+
+
+

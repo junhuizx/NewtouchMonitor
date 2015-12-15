@@ -3,19 +3,19 @@
 {% load dict_action %}
 
 {% block title %}
-    <title>Openstack</title>
+    <title>Instance</title>
 {% endblock %}
 
 {% block css %}
     <!--dynamic table-->
-{#    <link href="{% static "js/advanced-datatable/css/demo_page.css" %}" rel="stylesheet" />#}
-{#    <link href="{% static "js/advanced-datatable/css/demo_table.css" %}" rel="stylesheet" />#}
-{#    <link rel="stylesheet" href="{% static "js/data-tables/DT_bootstrap.css" %}" />#}
+    <!-- <link href="{% static "js/advanced-datatable/css/demo_page.css" %}" rel="stylesheet" />
+    <link href="{% static "js/advanced-datatable/css/demo_table.css" %}" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static "js/data-tables/DT_bootstrap.css" %}" /> -->
 {% endblock %}
 
 {% block page-heading %}
 <h3>
-    Openstack <small>Subtext for header</small>
+    Instance <small>Detail Using Information For Instances</small>
 </h3>
 <ul class="breadcrumb">
     <li class="active">Instances </li>
@@ -27,7 +27,7 @@
     <div class="col-sm-12">
         <section class="panel">
             <header class="panel-heading">
-                Openstack Instances
+                Cloud Platform Instances
                 <span class="tools pull-right">
                     <a href="javascript:;" class="fa fa-chevron-down"></a>
                     <a href="javascript:;" class="fa fa-times"></a>
@@ -39,7 +39,6 @@
                         <thead>
                             <tr>
                                 <th>name</th>
-{#                                <th>UUID</th>#}
                                 <th>Guest Agent</th>
                                 <th>Memory</th>
                                 <th>Disk Speed(Read/Write)</th>
@@ -48,30 +47,39 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for instance in instances %}
-                                <tr class="gradeX">
-                                    {% if instance.return_data %}
-                                        <td><a href="#">{{ instance.name }}</a></td>
-                                    {% else %}
-                                        <td>{{ instance.name }}</td>
-                                    {% endif %}
-{#                                    <td>{{ instance.uuid }}</td>#}
-                                    <td>{{ instance.return_data }}</td>
-                                    {% if instance.return_data %}
-                                        <td>{{ instance.memstat | memory_dict }}</td>
-                                        <td>{{ instance.diskstat | disk_speed_list | linebreaks}}</td>
-                                        <td>{{ instance.diskstat | disk_total_list | linebreaks}}</td>
-                                        <td>{{ instance.netstat | network_total_list | linebreaks}}</td>
-                                    {% else %}
-                                        <td class="center"> - / - </td>
-                                        <td class="center"> - </td>
-                                        <td class="center"> - </td>
-                                        <td class="center"> - </td>
-                                    {% endif %}
-{#                                    <td class="center">{{ instance.memstat }}</td>#}
-                                </tr>
+                        {% for instance in instances %}
+                          <tr class="gradeX">
+                            {% if instance.return_data %}
+                              <td class={{ ops_agent }}>
+                                <a id={{ instance.uuid }} class="instance" >
+                                {{ instance.name }}
+                                </a>
+                              </td>
+                            {% else %}
+                              <td>{{ instance.name }}</td>
+                            {% endif %}
 
-                            {% endfor %}
+                            <td>{{ instance.return_data }}</td>
+                            {% if instance.return_data %}
+                              <td>{{ instance.memstat | memory_dict }}</td>
+                              <td>
+                                {{ instance.diskstat | exclude_by_name:'dm' | disk_speed_list | linebreaks}}
+                              </td>
+                              <td>
+                                {{ instance.diskstat | exclude_by_name:'dm' | disk_total_list | linebreaks}}
+                              </td>
+                              <td>
+                                {{ instance.netstat | exclude_by_name:'lo' | exclude_by_name:'docker' | network_total_list | linebreaks }}
+                              </td>
+                            {% else %}
+                              <td class="center"> - / - </td>
+                              <td class="center"> - </td>
+                              <td class="center"> - </td>
+                              <td class="center"> - </td>
+                            {% endif %}
+                        </tr>
+
+                        {% endfor %}
                         </tbody>
                     </table>
                 </div>

@@ -1,20 +1,29 @@
 <ul class="nav nav-pills nav-stacked custom-nav">
     <li class="{% if request.path == '/' %}active{% endif %}"><a href={% url 'newtouch:overview:index' %}><i class="fa fa-home"></i> <span>Overview</span></a></li>
-    <li class="menu-list {% if '/server/' in request.path %}active{% endif %}"><a href=""><i class="fa fa-laptop"></i> <span>Server</span></a>
-        <ul class="sub-menu-list">
-            <li class=" {% if '/server/overview/' in request.path %}active{% endif %}"><a href={% url "newtouch:server:server_overview" %}> Overview</a></li>
-            <li class=" {% if '/server/collector/' in request.path %}active{% endif %}"><a href={% url "newtouch:server:server_collector" %}> Collectors</a></li>
-            <li class=" {% if '/server/manager/' in request.path %}active{% endif %}"><a href={% url "newtouch:server:server_manager" %}> Manager</a></li>
-            <li class=" {% if '/server/monitor/' in request.path %}active{% endif %}"><a href={% url "newtouch:server:server_monitor" %}> Monitor</a></li>
-            <li class=" {% if '/server/rules/' in request.path %}active{% endif %}"><a href={% url "newtouch:server:server_rules" %}> Rules</a></li>
-        </ul>
-    </li>
+{#    <li class="menu-list {% if '/server/' in request.path %}active{% endif %}"><a href=""><i class="fa fa-laptop"></i> <span>Server</span></a>#}
+{#        <ul class="sub-menu-list">#}
+{#            <li class=" {% if '/server/overview/' in request.path %}active{% endif %}"><a href={% url "newtouch:server:server_overview" %}> Overview</a></li>#}
+{#            <li class=" {% if '/server/collector/' in request.path %}active{% endif %}"><a href={% url "newtouch:server:server_collector" %}> Collectors</a></li>#}
+{#            <li class=" {% if '/server/manager/' in request.path %}active{% endif %}"><a href={% url "newtouch:server:server_manager" %}> Manager</a></li>#}
+{#            <li class=" {% if '/server/monitor/' in request.path %}active{% endif %}"><a href={% url "newtouch:server:server_monitor" %}> Monitor</a></li>#}
+{#            <li class=" {% if '/server/rules/' in request.path %}active{% endif %}"><a href={% url "newtouch:server:server_rules" %}> Rules</a></li>#}
+{#        </ul>#}
+{#    </li>#}
 
-    <li class="menu-list {% if '/openstack/' in request.path %}active{% endif %}"><a href=""><i class="fa fa-cloud"></i> <span>OpenStack</span></a>
+    <li class="menu-list {% if '/openstack/' in request.path %}active{% endif %}"><a href=""><i class="fa fa-cloud"></i> <span>Cloud Platform</span></a>
         <ul class="sub-menu-list">
-            <li class="{% if '/openstack/index/' in request.path %}active{% endif %}"><a href="{% url 'newtouch:openstack:openstack_index' %}"> Openstack Agent</a></li>
-            <li class="{% if '/openstack/hypervisors/' in request.path %}active{% endif %}"><a href="{% url 'newtouch:openstack:openstack_hypervisors' 1 %}"> Hypervisors</a></li>
-            <li class="{% if '/openstack/rules/' in request.path %}active{% endif %}"><a href="#"> Rules</a></li>
+            <li class="{% if '/openstack/index/' in request.path %}active{% endif %}">
+              <a href="{% url 'newtouch:openstack:openstack_index' %}"> Agent</a>
+            </li>
+{#            <li class="{% if '/openstack/hypervisors/' in request.path %}active{% endif %}">#}
+{#              <a href="{% url 'newtouch:openstack:openstack_hypervisors' 1 %}"> Hypervisors</a>#}
+{#            </li>#}
+{#            <li class="{% if '/openstack/net/' in request.path %}active{% endif %}">#}
+{#              <a href="{% url 'newtouch:openstack:net' 1 %}"> Net status</a>#}
+{#            </li>#}
+            <li class="{% if '/openstack/rules/' in request.path %}active{% endif %}">
+              <a href="#"> Rules</a>
+            </li>
         </ul>
     </li>
     <li class="{% if '/network/' in request.path %}active{% endif %}"><a href="{% url 'newtouch:network:network_index' %}"><i class="fa fa-sitemap"></i> <span>Network</span></a>
@@ -24,10 +33,10 @@
             <i class="fa fa-qrcode"></i><span>Service</span>
         </a>
         <ul class="sub-menu-list">
-            <li class=""><a href=""> Apache</a></li>
-            <li class=""><a href=""> MySQL</a></li>
-            <li class=""><a href=""> Redis</a></li>
-            <li class=""><a href=""> Custom</a></li>
+            <li class=""><a href="#"> Apache</a></li>
+            <li class=""><a href="#"> MySQL</a></li>
+            <li class=""><a href="#"> Redis</a></li>
+            <li class=""><a href="#"> Custom</a></li>
         </ul>
     </li>
     <li>

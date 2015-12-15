@@ -7,20 +7,20 @@
 
 {% block css %}
     <!--dynamic table-->
-{#    <link href="{% static "js/advanced-datatable/css/demo_page.css" %}" rel="stylesheet" />#}
-{#    <link href="{% static "js/advanced-datatable/css/demo_table.css" %}" rel="stylesheet" />#}
-{#    <link rel="stylesheet" href="{% static "js/data-tables/DT_bootstrap.css" %}" />#}
+  <!-- <link href="{% static "js/advanced-datatable/css/demo_page.css" %}" rel="stylesheet" />
+  <link href="{% static "js/advanced-datatable/css/demo_table.css" %}" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static "js/data-tables/DT_bootstrap.css" %}" /> -->
 {% endblock %}
-
+ 
 {% block page-heading %}
 <h3>
-    Openstack <small>Subtext for header</small>
+    Agent Index <small> Detail Information For All Agents</small>
 </h3>
 <ul class="breadcrumb">
-    <li class="active">OpenStack </li>
+    <li class="active">Agent</li>
 </ul>
 {% endblock %}
-
+    
 {% block page-body %}
 <div class="row">
     <div class="col-sm-12">
@@ -37,16 +37,18 @@
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Hostname</th>
+                                <th>Net</th>
+                                <th>Hostname</th>  
                                 <th>Port</th>
-                                <td>Update Time</td>
-                                <td>Action</td>
+                                <td><strong>Update Time</strong></td>
+                                <td><strong>Action</strong></td>
                             </tr>
                         </thead>
                         <tbody>
                         {% for platform in object_list%}
                             <tr class="gradeX">
                                 <td><a href="{% url 'newtouch:openstack:openstack_hypervisors' platform.id %}">{{ platform.name }}</a></td>
+                                <td><a href="{% url 'newtouch:openstack:net' platform.id %}">Net</a></td>
                                 <td>{{ platform.hostname }}</td>
                                 <td>{{ platform.port }}</td>
                                 <td>{{ platform.update_time | date:'Y-m-d H:i:s' }}</td>
@@ -75,6 +77,6 @@
 
 {% block js %}
     <!--dynamic table-->
-{#    <script type="text/javascript" language="javascript" src="{% static "js/advanced-datatable/js/jquery.dataTables.js"%}"></script>#}
-{#    <script type="text/javascript" src="{% static "js/data-tables/DT_bootstrap.js" %}"></script>#}
+<!-- <script type="text/javascript" language="javascript" src="{% static "js/advanced-datatable/js/jquery.dataTables.js"%}"></script>
+<script type="text/javascript" src="{% static "js/data-tables/DT_bootstrap.js" %}"></script>-->
 {% endblock %}

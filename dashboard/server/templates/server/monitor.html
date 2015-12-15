@@ -22,13 +22,13 @@
                         {% if tag %}
                             {% for idc in idcs %}
                             <li class="{% if idc.name == tag %}active{% endif %}">
-                                <a href="?tag={{ idc.name }}" >{{ idc.name }}</a>
+                                <a href="?tag={{ idc.name }}" idc = {{ idc.id }}>{{ idc.name }}</a>
                             </li>
                             {% endfor %}
                         {% else %}
                             {% for idc in idcs %}
                             <li class="{% if idc.name == 'ShangHai' %}active{% endif %}">
-                                <a href="?tag={{ idc.name }}" >{{ idc.name }}</a>
+                                <a href="?tag={{ idc.name }}" idc = {{ idc.id }}>{{ idc.name }}</a>
                             </li>
                             {% endfor %}
                         {% endif %}
@@ -52,7 +52,7 @@
                                 <tbody role="alert" aria-live="polite" aria-relevant="all">
                                     {% for host in hosts %}
                                         <tr class="gradeX odd">
-                                        <td><a class="host_ip">{{ host.server }}</a></td>
+                                        <td><a class="host_ip" agent="{{ host.agent }}">{{ host.server }}</a></td>
                                         {% if host.error %}
                                             <td> - </td>
                                             <td> - </td>

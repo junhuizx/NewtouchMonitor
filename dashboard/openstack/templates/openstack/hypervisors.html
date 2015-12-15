@@ -40,6 +40,7 @@
                                 <th class="center">Hostname</th>
                                 <th class="center">Type</th>
                                 <th class="center">IP</th>
+                                <th class="center">Network Status</th>
                                 <th class="center">VCpu (usage / total)</th>
                                 <th class="center">Memory (usage / total)</th>
                                 <th class="center">Disk (usage / total)</th>
@@ -52,6 +53,7 @@
                                     <td class="center"><a href="{% url 'newtouch:openstack:openstack_hypervisors_detail' agent_pk hypervisor.hypervisor_hostname %}">{{ hypervisor.hypervisor_hostname }}</a></td>
                                     <td class="center">{{ hypervisor.hypervisor_type }}</td>
                                     <td class="center">{{ hypervisor.host_ip }}</td>
+                                    <td class="center">{{ hypervisor.network_status }}</td>
                                     <td class="center">{{ hypervisor.vcpus_used }} / {{ hypervisor.vcpus }}</td>
                                     <td class="center">{{ hypervisor.memory_used | filesizeformat }} / {{ hypervisor.memory | filesizeformat }}</td>
                                     <td class="center">{{ hypervisor.local_used | filesizeformat }} / {{ hypervisor.local | filesizeformat }}</td>

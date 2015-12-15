@@ -25,6 +25,7 @@ urlpatterns = [
         name='server_collector_delete'),
 
     url(r'^rules/$', IndexView.as_view() ,name='server_rules'),
+
     url(r'^chart/$', ChartData.as_view() ,name='chart_data'),
     url(r'^host/$', ChartHost.as_view() ,name='host_ip'),
 
