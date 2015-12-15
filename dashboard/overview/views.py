@@ -1,6 +1,6 @@
 from django.views.generic import ListView
 from dashboard.server.models import Server
-from dashboard.openstack.models import OpenStackAgent
+from dashboard.openstack2.models import OpenStackAgent
 from dashboard.network.models import SyslogServerMysql
 
 # Create your views here.

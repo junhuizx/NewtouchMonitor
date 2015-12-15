@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %}
+    <title>Instance Status</title>
+{% endblock %}
+
+{% block page-heading %}
+    <h3>
+        Instance Status
+    </h3>
+    <ul class="breadcrumb">
+        <li class="active">
+            Openstack
+        </li>
+    </ul>
+{% endblock %}
+{% block page-body %}
+    <div class="row">
+        <div class="col-md-12">
+            <section class="panel">
+                <header class="panel-heading custom-tab ">
+                    <ul class="nav nav-tabs">
+                        {% if tag %}
+                            {% for openstack in openstacks %}
+                            <li class="{% if openstack.id == tag %}active{% endif %}">
+                                <a href="?tag={{ openstack.id }}">{{ openstack.name }}</a>
+                            </li>
+                            {% endfor %}
+                        {% else %}
+                            {% for openstack in openstacks %}
+                            <li class="{% if openstack.id == 1 %}active{% endif %}">
+                                <a href="?tag={{ openstack.id }}">{{ openstack.name }}</a>
+                            </li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                </header>
+                <div class="panel-body">
+                    <div class="adv-table">
+                        <div id="dynamic-table_wrapper" class="dataTables_wrapper form-inline" role="grid">
+                            <table class="display table table-bordered table-striped dataTable" id="dynamic-table" aria-describedby="dynamic-table_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th>Name</th>
+                                        <th>Instance Name</th>
+                                        <th>Hostname</th>
+                                        <th>Status</th>
+                                        <th>Fixed IP</th>
+                                        <th>Float IP</th>
+                                        <th>Float Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody role="alert" aria-live="polite" aria-relevant="all">
+                                    {% for instance_status in instances_status%}
+                                        <tr class="gradeX">
+                                            <td>{{ instance_status.name }}</td>
+                                            <td>{{ instance_status.instance_name }}</td>
+                                            <td>{{ instance_status.hypervisor_hostname }}</td>
+                                            <td>{{ instance_status.status }}</td>
+                                            <td>{{ instance_status.fixed }}</td>
+                                            <td>{{ instance_status.floating }} </td>
+                                            <td>{{ instance_status.floating_status }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+{% endblock %}

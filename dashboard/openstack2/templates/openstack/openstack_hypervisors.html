@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block title %}
+    <title>Hypervisors</title>
+{% endblock %}
+
+{% block page-heading %}
+    <h3>
+        Hypervisors
+    </h3>
+    <ul class="breadcrumb">
+        <li class="active">
+            Openstack
+        </li>
+    </ul>
+{% endblock %}
+{% block page-body %}
+    <div class="row">
+        <div class="col-md-12">
+            <section class="panel">
+                <header class="panel-heading custom-tab ">
+                    <ul class="nav nav-tabs">
+                        {% if tag %}
+                            {% for openstack in openstacks %}
+                            <li class="{% if openstack.id == tag %}active{% endif %}">
+                                <a href="?tag={{ openstack.id }}">{{ openstack.name }}</a>
+                            </li>
+                            {% endfor %}
+                        {% else %}
+                            {% for openstack in openstacks %}
+                            <li class="{% if openstack.id == 1 %}active{% endif %}">
+                                <a href="?tag={{ openstack.id }}">{{ openstack.name }}</a>
+                            </li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                </header>
+                <div class="panel-body">
+                    <div class="adv-table">
+                        <div id="dynamic-table_wrapper" class="dataTables_wrapper form-inline" role="grid">
+                            <table class="display table table-bordered table-striped dataTable" id="dynamic-table" aria-describedby="dynamic-table_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="center">Hostname</th>
+                                        <th class="center">Type</th>
+                                        <th class="center">IP</th>
+                                        <th class="center">Network Status</th>
+                                        <th class="center">VCpu (usage / total)</th>
+                                        <th class="center">Memory (usage / total)</th>
+                                        <th class="center">Disk (usage / total)</th>
+                                        <td class="center">running_vms</td>
+                                    </tr>
+                                </thead>
+                                <tbody role="alert" aria-live="polite" aria-relevant="all">
+                                    {% for hypervisor in hypervisors %}
+                                    <tr class="gradeX odd">
+                                        <td><a href="#">{{ hypervisor.hypervisor_hostname }}</a></td>
+                                        <td>{{ hypervisor.hypervisor_type }}</td>
+                                        <td>{{ hypervisor.host_ip }}</td>
+                                        <td>{{ hypervisor.network_status }}</td>
+                                        <td>{{ hypervisor.vcpus_used }} / {{ hypervisor.vcpus }}</td>
+                                        <td>{{ hypervisor.memory_used | filesizeformat }} / {{ hypervisor.memory | filesizeformat }}</td>
+                                        <td>{{ hypervisor.local_used | filesizeformat }} / {{ hypervisor.local | filesizeformat }}</td>
+                                        <td>{{ hypervisor.running_vms }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+{% endblock %}

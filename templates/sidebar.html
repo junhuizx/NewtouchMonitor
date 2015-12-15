@@ -15,12 +15,15 @@
             <li class="{% if '/openstack/index/' in request.path %}active{% endif %}">
               <a href="{% url 'newtouch:openstack:openstack_index' %}"> Agent</a>
             </li>
-{#            <li class="{% if '/openstack/hypervisors/' in request.path %}active{% endif %}">#}
-{#              <a href="{% url 'newtouch:openstack:openstack_hypervisors' 1 %}"> Hypervisors</a>#}
-{#            </li>#}
-{#            <li class="{% if '/openstack/net/' in request.path %}active{% endif %}">#}
-{#              <a href="{% url 'newtouch:openstack:net' 1 %}"> Net status</a>#}
-{#            </li>#}
+            <li class="{% if '/openstack/hypervisors/' in request.path %}active{% endif %}">
+              <a href="{% url 'newtouch:openstack:openstack_hypervisors' %}"> Hypervisors</a>
+            </li>
+            <li class="{% if '/openstack/instances/' in request.path %}active{% endif %}">
+              <a href="{% url 'newtouch:openstack:openstack_instances' %}"> Instances</a>
+            </li>
+            <li class="{% if '/openstack/nova-services/' in request.path %}active{% endif %}">
+              <a href="{% url 'newtouch:openstack:openstack_nova_services' %}"> Nova Services</a>
+            </li>
             <li class="{% if '/openstack/rules/' in request.path %}active{% endif %}">
               <a href="#"> Rules</a>
             </li>

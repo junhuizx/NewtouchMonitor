@@ -91,7 +91,6 @@ class OpenStackHypervisor(object):
     def __unicode__(self):
         return  self.hypervisor_hostname
 
-
 class OpenStackHypervisorsView(ListView):
     template_name = 'openstack/hypervisors.html'
     queryset = []

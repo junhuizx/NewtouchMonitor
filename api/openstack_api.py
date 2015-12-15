@@ -37,7 +37,7 @@ class OpenStackAgentClient(object):
 
         return json.loads(re.text)
 
-    def net_list(self):
+    def instances_status_list(self):
         url = self.base_url + '/servers/network'
         re = requests.get(url, headers=self.headers)
 

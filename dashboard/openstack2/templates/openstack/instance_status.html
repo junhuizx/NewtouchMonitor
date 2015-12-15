@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    <title>Net</title>
+{% endblock %}
+
+{% block css %}
+    
+{% endblock %}
+
+{% block page-heading %}
+  <h3>
+    Instance Net <small>Net Status For Instances</small>
+  </h3>
+  <ul class="breadcrumb">
+    <li class="active">Net Status</li>
+  </ul>
+{% endblock %}
+
+{% block page-body %}
+<div class="row">   
+    <div class="col-sm-12">
+        <section class="panel">
+            <header class="panel-heading">
+                Net Status
+                <span class="tools pull-right">
+                    <a href="javascript:;" class="fa fa-chevron-down"></a>
+                    <a href="javascript:;" class="fa fa-times"></a>
+                </span>
+            </header>
+            <div class="panel-body">
+                <div class="adv-table">
+                    <table  class="display table table-bordered table-striped" id="dynamic-table">
+                        <thead>
+                            <tr>
+                                <th class="center" style="width: 100px;">Name</th>
+                                <th class="center">Instance Name</th>
+                                <th class="center">Hostname</th>
+                                <th class="center">Status</th>
+                                <th class="center">Fixed IP</th>
+                                <th class="center">Float IP</th>
+                                <th class="center">Float Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for instance in instances %}
+                                <tr class="gradeX">
+                                    <td class="center">{{ instance.name }}</td>
+                                    <td class="center">{{ instance.instance_name }}</td>
+                                    <td class="center">{{ instance.hypervisor_hostname }}</td>
+                                    <td class="center">{{ instance.status }}</td>
+                                    <td class="center">{{ instance.fixed }}</td>
+                                    <td class="center">{{ instance.floating }} </td>
+                                    <td class="center">{{ instance.floating_status }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+
+{% endblock %}

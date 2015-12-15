@@ -39,7 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'tastypie',
     'dashboard.server',
-    'dashboard.openstack',
+    'dashboard.openstack2',
     'dashboard.rules',
     'dashboard.overview',
     'dashboard.network',
